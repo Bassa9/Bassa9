@@ -6,77 +6,134 @@
     <title>بيسو البلد</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #1a1a2e;
-            color: white;
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
             padding: 20px;
+            color: white;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        
+        .container { max-width: 1400px; margin: 0 auto; }
         .title {
             text-align: center;
             color: #ffd700;
-            font-size: 4em;
+            font-size: 5em;
             margin: 40px 0 20px;
+            letter-spacing: 5px;
             font-weight: bold;
+            animation: glow 2s ease-in-out infinite alternate;
         }
-        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ff8c00; }
+            to { text-shadow: 0 0 20px #ffd700, 0 0 30px #ff8c00, 0 0 40px #ff4500; }
+        }
         .caption {
             text-align: center;
-            color: white;
-            font-size: 1.5em;
-            margin: 20px auto 40px;
-            max-width: 800px;
-            padding: 20px;
-            background: rgba(255,215,0,0.1);
-            border: 2px solid #ffd700;
-            border-radius: 10px;
+            color: #fff;
+            font-size: 1.8em;
+            margin: 20px auto 50px;
+            max-width: 900px;
+            padding: 25px 40px;
+            background: rgba(0,0,0,0.4);
+            border-right: 5px solid #ffd700;
+            border-left: 5px solid #ffd700;
+            border-radius: 15px;
+            font-style: italic;
+            line-height: 1.6;
         }
-        
+        .subtitle {
+            text-align: center;
+            color: #ffd700;
+            font-size: 1.4em;
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+        }
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
             padding: 20px;
         }
-        
         .gallery-item {
             width: 100%;
             height: 250px;
             overflow: hidden;
-            border-radius: 10px;
-            background: #333;
-            border: 2px solid #ffd700;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.4s ease;
+            background: #111;
+            border: 2px solid rgba(255,215,0,0.3);
         }
-        
+        .gallery-item:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(255,215,0,0.4);
+            border-color: #ffd700;
+        }
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s ease;
         }
-        
+        .gallery-item:hover img { transform: scale(1.1); }
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 15px;
+            box-shadow: 0 0 80px rgba(255,215,0,0.5);
+            border: 3px solid #ffd700;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px; right: 30px;
+            color: #ffd700;
+            font-size: 50px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: transform 0.3s;
+        }
+        .lightbox-close:hover { transform: rotate(90deg); }
         footer {
             text-align: center;
-            padding: 30px;
+            padding: 40px 20px 20px;
             color: #ffd700;
             font-size: 1.2em;
+            letter-spacing: 2px;
+        }
+        @media (max-width: 600px) {
+            .title { font-size: 3em; }
+            .caption { font-size: 1.2em; padding: 20px; }
+            .gallery { grid-template-columns: 1fr; }
+            .gallery-item { height: 220px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="title">بيسو البلد</h1>
-        
-        <div class="caption">
-            إما أن تكون أسطورة، أو لا تكون شيئاً على الإطلاق
-        </div>
-        
+        <div class="caption">إما أن تكون أسطورة، أو لا تكون شيئاً على الإطلاق</div>
+        <p class="subtitle">✦ معرض الصور ✦</p>
         <div class="gallery">
             <div class="gallery-item"><img src="photo1.jpg" alt="صورة 1"></div>
             <div class="gallery-item"><img src="photo2.jpg" alt="صورة 2"></div>
@@ -89,10 +146,26 @@
             <div class="gallery-item"><img src="photo9.jpg" alt="صورة 9"></div>
             <div class="gallery-item"><img src="photo10.jpg" alt="صورة 10"></div>
         </div>
-        
-        <footer>
-            <p>BASSA9</p>
-        </footer>
+        <footer><p>👑 BASSA9 👑</p></footer>
     </div>
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">×</button>
+        <img id="lightbox-img" src="" alt="">
+    </div>
+    <script>
+        const galleryItems = document.querySelectorAll('.gallery-item img');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        galleryItems.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+        function closeLightbox() { lightbox.classList.remove('active'); }
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+    </script>
 </body>
 </html>
