@@ -8,74 +8,51 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a2e;
             color: white;
+            padding: 20px;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         
         .title {
             text-align: center;
             color: #ffd700;
-            font-size: 4.5em;
-            margin: 40px 0 10px;
-            text-shadow: 0 0 20px #ffd700, 0 0 40px #ff8c00;
-            letter-spacing: 5px;
+            font-size: 4em;
+            margin: 40px 0 20px;
             font-weight: bold;
         }
         
         .caption {
             text-align: center;
-            color: #fff;
-            font-size: 1.6em;
+            color: white;
+            font-size: 1.5em;
             margin: 20px auto 40px;
-            max-width: 900px;
-            padding: 25px 40px;
-            background: rgba(0,0,0,0.5);
-            border-right: 4px solid #ffd700;
-            border-left: 4px solid #ffd700;
-            border-radius: 15px;
-            font-style: italic;
-            line-height: 1.6;
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: #ffd700;
-            font-size: 1.3em;
-            margin-bottom: 40px;
-            letter-spacing: 3px;
+            max-width: 800px;
+            padding: 20px;
+            background: rgba(255,215,0,0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
         }
         
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
             padding: 20px;
         }
         
         .gallery-item {
             width: 100%;
-            height: 240px;
+            height: 250px;
             overflow: hidden;
-            border-radius: 15px;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background: #111;
-            border: 2px solid rgba(255,215,0,0.3);
-        }
-        
-        .gallery-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(255,215,0,0.3);
-            border-color: #ffd700;
+            border-radius: 10px;
+            background: #333;
+            border: 2px solid #ffd700;
         }
         
         .gallery-item img {
@@ -84,52 +61,11 @@
             object-fit: cover;
         }
         
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .lightbox.active { display: flex; }
-        
-        .lightbox img {
-            max-width: 95%;
-            max-height: 95%;
-            border-radius: 15px;
-            box-shadow: 0 0 60px rgba(255,215,0,0.4);
-            border: 3px solid #ffd700;
-        }
-        
-        .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: #ffd700;
-            font-size: 50px;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-        
         footer {
             text-align: center;
-            padding: 40px 20px 20px;
+            padding: 30px;
             color: #ffd700;
             font-size: 1.2em;
-            letter-spacing: 2px;
-        }
-        
-        @media (max-width: 600px) {
-            .title { font-size: 2.5em; }
-            .caption { font-size: 1.1em; padding: 20px; }
-            .gallery { grid-template-columns: 1fr; }
-            .gallery-item { height: 220px; }
         }
     </style>
 </head>
@@ -140,8 +76,6 @@
         <div class="caption">
             إما أن تكون أسطورة، أو لا تكون شيئاً على الإطلاق
         </div>
-        
-        <p class="subtitle">✦ معرض الصور ✦</p>
         
         <div class="gallery">
             <div class="gallery-item"><img src="photo1.jpg" alt="صورة 1"></div>
@@ -157,34 +91,8 @@
         </div>
         
         <footer>
-            <p>👑 BASSA9 </p>
+            <p>BASSA9</p>
         </footer>
     </div>
-    
-    <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" onclick="closeLightbox()">×</button>
-        <img id="lightbox-img" src="" alt="">
-    </div>
-    
-    <script>
-        const galleryItems = document.querySelectorAll('.gallery-item img');
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        
-        galleryItems.forEach(img => {
-            img.addEventListener('click', () => {
-                lightboxImg.src = img.src;
-                lightbox.classList.add('active');
-            });
-        });
-        
-        function closeLightbox() {
-            lightbox.classList.remove('active');
-        }
-        
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) closeLightbox();
-        });
-    </script>
 </body>
 </html>
