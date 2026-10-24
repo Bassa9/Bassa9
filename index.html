@@ -1,171 +1,129 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بيسو البلد</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            padding: 20px;
-            color: white;
-        }
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .container { max-width: 1400px; margin: 0 auto; }
-        .title {
-            text-align: center;
-            color: #ffd700;
-            font-size: 5em;
-            margin: 40px 0 20px;
-            letter-spacing: 5px;
-            font-weight: bold;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ff8c00; }
-            to { text-shadow: 0 0 20px #ffd700, 0 0 30px #ff8c00, 0 0 40px #ff4500; }
-        }
-        .caption {
-            text-align: center;
-            color: #fff;
-            font-size: 1.8em;
-            margin: 20px auto 50px;
-            max-width: 900px;
-            padding: 25px 40px;
-            background: rgba(0,0,0,0.4);
-            border-right: 5px solid #ffd700;
-            border-left: 5px solid #ffd700;
-            border-radius: 15px;
-            font-style: italic;
-            line-height: 1.6;
-        }
-        .subtitle {
-            text-align: center;
-            color: #ffd700;
-            font-size: 1.4em;
-            margin-bottom: 40px;
-            letter-spacing: 3px;
-        }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-        .gallery-item {
-            width: 100%;
-            height: 250px;
-            overflow: hidden;
-            border-radius: 20px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: all 0.4s ease;
-            background: #111;
-            border: 2px solid rgba(255,215,0,0.3);
-        }
-        .gallery-item:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 50px rgba(255,215,0,0.4);
-            border-color: #ffd700;
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        .gallery-item:hover img { transform: scale(1.1); }
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .lightbox.active { display: flex; }
-        .lightbox img {
-            max-width: 95%;
-            max-height: 95%;
-            border-radius: 15px;
-            box-shadow: 0 0 80px rgba(255,215,0,0.5);
-            border: 3px solid #ffd700;
-        }
-        .lightbox-close {
-            position: absolute;
-            top: 20px; right: 30px;
-            color: #ffd700;
-            font-size: 50px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            transition: transform 0.3s;
-        }
-        .lightbox-close:hover { transform: rotate(90deg); }
-        footer {
-            text-align: center;
-            padding: 40px 20px 20px;
-            color: #ffd700;
-            font-size: 1.2em;
-            letter-spacing: 2px;
-        }
-        @media (max-width: 600px) {
-            .title { font-size: 3em; }
-            .caption { font-size: 1.2em; padding: 20px; }
-            .gallery { grid-template-columns: 1fr; }
-            .gallery-item { height: 220px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بيسو البلد</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI', Tahoma, Arial, sans-serif; background:#0d0d0d; color:#fff; overflow-x:hidden; }
+.hero {
+  min-height:100vh;
+  background: url('dragon.jpg') center top/cover no-repeat, linear-gradient(180deg,#1a1208 0%,#0d0d0d 100%);
+  position:relative; display:flex; flex-direction:column; justify-content:space-between;
+  padding:50px 20px; text-align:center; overflow:hidden;
+}
+.gold-text {
+  font-size:2.4em; font-weight:bold; color:#ffd76a; line-height:1.6;
+  text-shadow:0 0 15px #ff9d00, 0 0 35px #ff6a00;
+  animation:glow 2.5s ease-in-out infinite alternate;
+}
+@keyframes glow {
+  from { text-shadow:0 0 10px #ff9d00, 0 0 25px #ff6a00; }
+  to { text-shadow:0 0 25px #ffb300, 0 0 50px #ff7b00; }
+}
+.welcome { color:#ff7a2f; font-size:1.4em; margin-top:50px; }
+.big-name { font-size:3.5em; font-weight:bold; color:#f5f5f5; text-shadow:0 4px 20px rgba(0,0,0,.8); margin-top:10px; }
+.particle { position:absolute; background:radial-gradient(circle,#ffd76a,transparent); border-radius:50%; animation:float linear infinite; }
+@keyframes float { from { transform:translateY(0); opacity:.8; } to { transform:translateY(-110vh); opacity:0; } }
+.section { max-width:950px; margin:50px auto; padding:0 20px; }
+.section h2 { font-size:2.2em; margin-bottom:20px; text-shadow:0 0 15px rgba(255,150,0,.6); }
+.card {
+  background:rgba(20,12,6,.85); border:1px solid rgba(255,122,47,.5); border-radius:18px;
+  padding:25px; font-size:1.2em; line-height:1.8; color:#f0e6d8; box-shadow:0 8px 30px rgba(0,0,0,.6);
+}
+.music-box { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }
+.btn { background:linear-gradient(135deg,#ff7a2f,#ff9d00); border:none; color:#1a0e00; font-weight:bold; font-size:1.1em; padding:12px 28px; border-radius:30px; cursor:pointer; }
+input[type=file] { color:#ffd76a; }
+.gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:15px; }
+.gallery-item { height:240px; border-radius:15px; overflow:hidden; border:2px solid rgba(255,150,0,.5); background:#111; cursor:pointer; }
+.gallery-item img { width:100%; height:100%; object-fit:cover; }
+.lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.95); z-index:1000; justify-content:center; align-items:center; padding:20px; }
+.lightbox.active { display:flex; }
+.lightbox img { max-width:95%; max-height:95%; border-radius:15px; border:3px solid #ff9d00; }
+.lightbox-close { position:absolute; top:20px; right:30px; color:#ffd76a; font-size:50px; cursor:pointer; background:none; border:none; }
+footer { text-align:center; padding:35px; color:#ff7a2f; font-size:1.15em; }
+@media (max-width:600px){ .gold-text{font-size:1.6em;} .big-name{font-size:2.4em;} }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="title">بيسو البلد</h1>
-        <div class="caption">إما أن تكون أسطورة، أو لا تكون شيئاً على الإطلاق</div>
-        <p class="subtitle">✦ معرض الصور ✦</p>
-        <div class="gallery">
-            <div class="gallery-item"><img src="photo1.jpg" alt="صورة 1"></div>
-            <div class="gallery-item"><img src="photo2.jpg" alt="صورة 2"></div>
-            <div class="gallery-item"><img src="photo3.jpg" alt="صورة 3"></div>
-            <div class="gallery-item"><img src="photo4.jpg" alt="صورة 4"></div>
-            <div class="gallery-item"><img src="photo5.jpg" alt="صورة 5"></div>
-            <div class="gallery-item"><img src="photo6.jpg" alt="صورة 6"></div>
-            <div class="gallery-item"><img src="photo7.jpg" alt="صورة 7"></div>
-            <div class="gallery-item"><img src="photo8.png" alt="صورة 8"></div>
-            <div class="gallery-item"><img src="photo9.jpg" alt="صورة 9"></div>
-            <div class="gallery-item"><img src="photo10.jpg" alt="صورة 10"></div>
-        </div>
-        <footer><p>👑 BASSA9 👑</p></footer>
-    </div>
-    <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" onclick="closeLightbox()">×</button>
-        <img id="lightbox-img" src="" alt="">
-    </div>
-    <script>
-        const galleryItems = document.querySelectorAll('.gallery-item img');
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        galleryItems.forEach(img => {
-            img.addEventListener('click', () => {
-                lightboxImg.src = img.src;
-                lightbox.classList.add('active');
-            });
-        });
-        function closeLightbox() { lightbox.classList.remove('active'); }
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) closeLightbox();
-        });
-    </script>
+<div class="hero">
+  <div class="gold-text">وجودك هنا يعني إنك رأيت<br>أعظم رجل في العالم</div>
+  <div>
+    <div class="welcome">مرحباً بيك في عالمي</div>
+    <div class="big-name">بيسو البلد</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>عني</h2>
+  <div class="card">إما أن تكون أسطورة، أو لا تكون شيئاً على الإطلاق.</div>
+</div>
+
+<div class="section">
+  <h2>🎵 اختار أغنيتك</h2>
+  <div class="card music-box">
+    <button class="btn" id="playBtn">▶ تشغيل</button>
+    <input type="file" id="songInput" accept="audio/*">
+    <audio id="player"></audio>
+  </div>
+</div>
+
+<div class="section">
+  <h2>صوري</h2>
+  <div class="gallery">
+    <div class="gallery-item"><img src="photo1.jpg"></div>
+    <div class="gallery-item"><img src="photo2.jpg"></div>
+    <div class="gallery-item"><img src="photo3.jpg"></div>
+    <div class="gallery-item"><img src="photo4.jpg"></div>
+    <div class="gallery-item"><img src="photo5.jpg"></div>
+    <div class="gallery-item"><img src="photo6.jpg"></div>
+    <div class="gallery-item"><img src="photo7.jpg"></div>
+    <div class="gallery-item"><img src="photo8.png"></div>
+    <div class="gallery-item"><img src="photo9.jpg"></div>
+    <div class="gallery-item"><img src="photo10.jpg"></div>
+  </div>
+</div>
+
+<footer>صُنع بنار • بيسو البلد 🔥</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <img id="lightbox-img" src="">
+</div>
+
+<script>
+const hero = document.querySelector('.hero');
+for (let i=0;i<35;i++){
+  const p = document.createElement('span');
+  p.className='particle';
+  const s = Math.random()*8+3;
+  p.style.width = s+'px'; p.style.height = s+'px';
+  p.style.right = Math.random()*100+'%';
+  p.style.bottom = '-20px';
+  p.style.animationDuration = (Math.random()*8+6)+'s';
+  p.style.animationDelay = (Math.random()*8)+'s';
+  hero.appendChild(p);
+}
+const songInput = document.getElementById('songInput');
+const player = document.getElementById('player');
+const playBtn = document.getElementById('playBtn');
+songInput.addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (f) { player.src = URL.createObjectURL(f); player.play(); playBtn.textContent = '⏸ إيقاف'; }
+});
+playBtn.addEventListener('click', () => {
+  if (!player.src) { songInput.click(); return; }
+  if (player.paused) { player.play(); playBtn.textContent = '⏸ إيقاف'; }
+  else { player.pause(); playBtn.textContent = '▶ تشغيل'; }
+});
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+document.querySelectorAll('.gallery-item img').forEach(img => {
+  img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.classList.add('active'); });
+});
+function closeLightbox(){ lightbox.classList.remove('active'); }
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+</script>
 </body>
 </html>
