@@ -248,6 +248,23 @@ body.lite .tagline,body.lite .tagline b,body.lite .stat b,body.lite .roll,body.l
 .portal.has img{opacity:1}
 body.lite .portal.has{box-shadow:0 0 24px rgba(255,215,106,.55);border:3px solid #ffd76a}
 .portal{width:170px;height:170px}
+.player{border-radius:26px;padding:12px 14px;gap:12px;width:min(100%,380px);border:1px solid rgba(241,217,160,.35);background:linear-gradient(135deg,rgba(34,17,8,.94),rgba(10,6,4,.94));box-shadow:0 10px 28px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)}
+.cover{position:relative;flex:none;width:64px;height:64px;border-radius:50%;padding:3px;background:conic-gradient(#ffd76a,#ff8a3d,#b3170f,#ffd76a)}
+.cover img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 40%;border:2px solid #0b0806}
+.cover::after{content:'';position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:#0b0806;border:2px solid #ffd76a}
+.player.playing .cover{animation:spin 10s linear infinite}
+.pinfo{flex:1;min-width:0;text-align:right}
+.ptitle{font-family:'Lalezar','Cairo',sans-serif;font-size:1.3rem;line-height:1.3;color:#fff4d6}
+.psub{display:flex;align-items:center;gap:10px;font-size:.78rem;color:#e9c98c}
+.psub .eq{height:14px}
+.pbar{position:relative;height:18px;cursor:pointer;touch-action:none}
+.pbar::before{content:'';position:absolute;left:0;right:0;top:7px;height:4px;border-radius:4px;background:rgba(255,255,255,.16)}
+.pbar i{position:absolute;left:0;right:0;top:7px;height:4px;border-radius:4px;transform-origin:right;transform:scaleX(0);background:linear-gradient(270deg,#ffd76a,#ff8a3d)}
+.ptime{display:flex;justify-content:space-between;font-size:.72rem;color:#cdb68a}
+.pbtn{display:grid;place-items:center;width:50px;height:50px;color:#1a0b00}
+.mini svg{display:block}
+body.calm .cover{background:conic-gradient(#f6e6b8,#c9a24a,#f6e6b8)}
+body.calm .pbar i{background:linear-gradient(270deg,#f6e6b8,#c9a24a)}
 </style>
 </head>
 <body class="locked lite">
@@ -274,9 +291,14 @@ body.lite .portal.has{box-shadow:0 0 24px rgba(255,215,106,.55);border:3px solid
     <div class="nw pre" id="nw"><h1 class="name">بيسو البلد</h1></div>
     <div class="roll" id="roll"></div>
     <div class="player" id="player">
-      <button class="pbtn" id="playBtn" aria-label="تشغيل / إيقاف">⏸</button>
-      <div class="ptitle" id="songTitle"></div>
-      <div class="eq"><i></i><i></i><i></i><i></i></div>
+      <div class="cover" id="cover"><img id="coverImg" alt=""></div>
+      <div class="pinfo">
+        <div class="ptitle" id="songTitle"></div>
+        <div class="psub"><span>أخوك بيسو</span><div class="eq"><i></i><i></i><i></i><i></i></div></div>
+        <div class="pbar" id="pbar"><i id="pfill"></i></div>
+        <div class="ptime"><span id="tcur">٠:٠٠</span><span id="tdur">٠:٠٠</span></div>
+      </div>
+      <button class="pbtn" id="playBtn" aria-label="تشغيل / إيقاف"></button>
     </div>
   </div>
   <div class="scroll">▼</div>
@@ -334,16 +356,16 @@ body.lite .portal.has{box-shadow:0 0 24px rgba(255,215,106,.55);border:3px solid
   <section class="section reveal">
     <h2>صوري</h2>
     <div class="gallery" id="gallery">
-      <div class="g"><img src="photo1.jpg" alt="بيسو البلد - صورة 1" loading="lazy" decoding="async"></div>
-      <div class="g"><img src="photo2.jpg" alt="بيسو البلد - صورة 2" loading="lazy" decoding="async"></div>
-      <div class="g"><img src="photo3.jpg" alt="بيسو البلد - صورة 3" loading="lazy" decoding="async"></div>
-      <div class="g"><img src="photo4.jpg" alt="بيسو البلد - صورة 4" loading="lazy" decoding="async"></div>
-      <div class="g"><img src="photo5.jpg" alt="بيسو البلد - صورة 5" loading="lazy" decoding="async"></div>
-      <div class="g"><img src="photo6.jpg" alt="بيسو البلد - صورة 6" loading="lazy" decoding="async"></div>
-      <div class="g"><img src="photo7.jpg" alt="بيسو البلد - صورة 7" loading="lazy" decoding="async"></div>
-      <div class="g"><img src="photo8.png" alt="بيسو البلد - صورة 8" loading="lazy" decoding="async"></div>
-      <div class="g"><img src="photo9.jpg" alt="بيسو البلد - صورة 9" loading="lazy" decoding="async"></div>
-      <div class="g"><img src="photo10.jpg" alt="بيسو البلد - صورة 10" loading="lazy" decoding="async"></div>
+      <div class="g"><img onerror="this.parentNode.remove()" src="photo1.jpg" alt="بيسو البلد - صورة 1" loading="lazy" decoding="async"></div>
+      <div class="g"><img onerror="this.parentNode.remove()" src="photo2.jpg" alt="بيسو البلد - صورة 2" loading="lazy" decoding="async"></div>
+      <div class="g"><img onerror="this.parentNode.remove()" src="photo3.jpg" alt="بيسو البلد - صورة 3" loading="lazy" decoding="async"></div>
+      <div class="g"><img onerror="this.parentNode.remove()" src="photo4.jpg" alt="بيسو البلد - صورة 4" loading="lazy" decoding="async"></div>
+      <div class="g"><img onerror="this.parentNode.remove()" src="photo5.jpg" alt="بيسو البلد - صورة 5" loading="lazy" decoding="async"></div>
+      <div class="g"><img onerror="this.parentNode.remove()" src="photo6.jpg" alt="بيسو البلد - صورة 6" loading="lazy" decoding="async"></div>
+      <div class="g"><img onerror="this.parentNode.remove()" src="photo7.jpg" alt="بيسو البلد - صورة 7" loading="lazy" decoding="async"></div>
+      <div class="g"><img onerror="this.parentNode.remove()" src="photo8.png" alt="بيسو البلد - صورة 8" loading="lazy" decoding="async"></div>
+      <div class="g"><img onerror="this.parentNode.remove()" src="photo9.jpg" alt="بيسو البلد - صورة 9" loading="lazy" decoding="async"></div>
+      <div class="g"><img onerror="this.parentNode.remove()" src="photo10.jpg" alt="بيسو البلد - صورة 10" loading="lazy" decoding="async"></div>
     </div>
   </section>
 
@@ -367,7 +389,7 @@ body.lite .portal.has{box-shadow:0 0 24px rgba(255,215,106,.55);border:3px solid
 
 <footer>صُنع بنار • بيسو البلد 🔥</footer>
 
-<button class="mini" id="mini" aria-label="الأغنية">⏸</button>
+<button class="mini" id="mini" aria-label="الأغنية"></button>
 <div class="qrbox" id="qrbox"><div class="qrin"><div id="qrcode"></div><p>امسح الكود وادخل العالم 🔥</p></div></div>
 <audio id="audio" loop preload="auto"></audio>
 
@@ -475,11 +497,19 @@ audio.addEventListener('error', () => {
   if (++si < SONG_TRY.length) { audio.src = SONG_TRY[si]; if (started) audio.play().then(() => setState(true)).catch(() => {}); }
   else { songMissing = true; if (started) note('مش لاقي ملف الأغنية. ارفعه على GitHub باسم ' + SONG_FILE); }
 });
+const IC_PLAY = '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>', IC_PAUSE = '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
 function setState(on) {
   player.classList.toggle('playing', on);
-  playBtn.textContent = on ? '⏸' : '▶';
-  mini.textContent = on ? '⏸' : '▶';
+  playBtn.innerHTML = on ? IC_PAUSE : IC_PLAY;
+  mini.innerHTML = on ? IC_PAUSE : IC_PLAY;
 }
+setState(false);
+const fmt = t => { t = Math.floor(t || 0); return Math.floor(t / 60).toLocaleString('ar-EG') + ':' + (t % 60).toLocaleString('ar-EG', { minimumIntegerDigits: 2 }); };
+const pfill = document.getElementById('pfill'), tcur = document.getElementById('tcur'), tdur = document.getElementById('tdur'), pbar = document.getElementById('pbar');
+audio.addEventListener('timeupdate', () => { const d = audio.duration; pfill.style.transform = 'scaleX(' + (d ? audio.currentTime / d : 0) + ')'; tcur.textContent = fmt(audio.currentTime); });
+audio.addEventListener('loadedmetadata', () => { tdur.textContent = fmt(audio.duration); });
+pbar.addEventListener('pointerdown', e => { const r = pbar.getBoundingClientRect(), d = audio.duration; if (d && isFinite(d)) audio.currentTime = Math.min(1, Math.max(0, (r.right - e.clientX) / r.width)) * d; });
+const cImg = document.getElementById('coverImg'); cImg.onerror = () => document.getElementById('cover').style.display = 'none'; cImg.src = GATE_PHOTO;
 const toggle = () => { if (audio.paused) { audio.play(); setState(true); } else { audio.pause(); setState(false); } };
 mini.addEventListener('click', toggle);
 addEventListener('scroll', () => mini.classList.toggle('show', scrollY > innerHeight * .6), { passive: true });
@@ -699,232 +729,4 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js', { up
 const VOICE_TRY = [...new Set([VOICE_FILE, 'voice1.m4a', 'voice1.wav', 'voice1.ogg', 'Voice1.mp3'])];
 const voiceData = (async () => {
   for (const f of VOICE_TRY) { try { const r = await fetch(f); if (r.ok) return await r.arrayBuffer(); } catch (e) {} }
-  return null;
-})();
-async function playVoice(ctx) {
-  try {
-    const data = await voiceData; if (!data) { note('ملف صوتك مش موجود. ارفعه على GitHub باسم ' + VOICE_FILE); return; }
-    const A = ctx || ACX || new (window.AudioContext || window.webkitAudioContext)();
-    if (A.state === 'suspended') await A.resume();
-    const buf = await A.decodeAudioData(data.slice(0));
-    const src = A.createBufferSource(); src.buffer = buf; src.playbackRate.value = VOICE_PITCH;
-    const sh = A.createWaveShaper(), cv = new Float32Array(256);
-    for (let i = 0; i < 256; i++) { const x = i / 128 - 1; cv[i] = (1 + VOICE_GRIT) * x / (1 + VOICE_GRIT * Math.abs(x)); }
-    sh.curve = cv;
-    const low = A.createBiquadFilter(); low.type = 'lowshelf'; low.frequency.value = 220; low.gain.value = 8;
-    const high = A.createBiquadFilter(); high.type = 'highshelf'; high.frequency.value = 3500; high.gain.value = 3;
-    const comp = A.createDynamicsCompressor();
-    const master = A.createGain(); master.gain.value = 1.25;
-    src.connect(sh); sh.connect(low); low.connect(high); high.connect(comp); comp.connect(master);
-    if (!isLite()) {
-    const len = A.sampleRate * 2.6, ir = A.createBuffer(2, len, A.sampleRate);
-    for (let c = 0; c < 2; c++) { const d = ir.getChannelData(c); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6); }
-    const conv = A.createConvolver(); conv.buffer = ir;
-    const wet = A.createGain(); wet.gain.value = .45;
-    comp.connect(conv); conv.connect(wet); wet.connect(master);
-    const dl = A.createDelay(); dl.delayTime.value = .2;
-    const fb = A.createGain(); fb.gain.value = .28; const ew = A.createGain(); ew.gain.value = .22;
-    comp.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(ew); ew.connect(master);
-    }
-    master.connect(A.destination);
-    audio.volume = .22;
-    src.start();
-    setTimeout(() => {
-      const iv = setInterval(() => { audio.volume = Math.min(1, audio.volume + .06); if (audio.volume >= 1) clearInterval(iv); }, 120);
-      setTimeout(() => { if (A !== ACX) A.close(); }, 3000);
-    }, (buf.duration / VOICE_PITCH + 1.2) * 1000);
-  } catch (e) { audio.volume = 1; }
-}
-document.querySelector('.tagline').addEventListener('click', () => playVoice());
-
-// زئير ونار (بالكود)
-function roar() {
-  try {
-    const A = ACX || new (window.AudioContext || window.webkitAudioContext)(), t = A.currentTime;
-    const g = A.createGain(); g.gain.setValueAtTime(.0001, t);
-    g.gain.exponentialRampToValueAtTime(.5, t + .25); g.gain.exponentialRampToValueAtTime(.0001, t + 1.8);
-    const f = A.createBiquadFilter(); f.type = 'lowpass';
-    f.frequency.setValueAtTime(900, t); f.frequency.exponentialRampToValueAtTime(120, t + 1.8);
-    g.connect(f); f.connect(A.destination);
-    const o = A.createOscillator(); o.type = 'sawtooth';
-    o.frequency.setValueAtTime(95, t); o.frequency.exponentialRampToValueAtTime(38, t + 1.8);
-    o.connect(g); o.start(t); o.stop(t + 1.9);
-    const nb = A.createBuffer(1, A.sampleRate * 1.8, A.sampleRate), dd = nb.getChannelData(0);
-    for (let i = 0; i < dd.length; i++) dd[i] = (Math.random() * 2 - 1) * (1 - i / dd.length);
-    const sr = A.createBufferSource(); sr.buffer = nb; sr.connect(g); sr.start(t);
-  } catch (e) {}
-}
-// شريط التقدم
-const prog = document.getElementById('prog');
-let pr = 0;
-addEventListener('scroll', () => { if (pr) return; pr = 1; requestAnimationFrame(() => { pr = 0; const h = document.documentElement.scrollHeight - innerHeight; prog.style.width = (h > 0 ? scrollY / h * 100 : 0) + '%'; }); }, { passive: true });
-
-// مؤشر مخصص (للكمبيوتر فقط)
-if (matchMedia('(pointer:fine)').matches) {
-  document.body.classList.add('fine');
-  const c = document.createElement('div'); c.className = 'cur'; document.body.appendChild(c);
-  addEventListener('pointermove', e => {
-    if (isLite()) return;
-    c.style.transform = `translate(${e.clientX}px,${e.clientY}px)`;
-    c.classList.toggle('big', !!(e.target.closest && e.target.closest('a,button,.flip,.g,.w,.tagline,input')));
-  });
-}
-
-// إمالة 3D
-let tEl = null;
-const untilt = () => { if (tEl) { tEl.style.transform = ''; tEl = null; } };
-addEventListener('pointermove', rafThrottle(e => {
-  if (isLite()) return;
-  const t = e.target.closest ? e.target.closest('.card:not(#msgbox),.stat,.g,.w') : null;
-  if (tEl && tEl !== t) untilt();
-  if (!t) return;
-  t.classList.add('tilt');
-  const r = t.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-  t.style.transform = `perspective(700px) rotateY(${x * -10}deg) rotateX(${y * 10}deg) scale(1.02)`;
-  tEl = t;
-}));
-addEventListener('pointerup', untilt); addEventListener('pointercancel', untilt);
-
-// حكمتي
-const qEl = document.getElementById('quote'); let qi = 0;
-qEl.textContent = QUOTES[0];
-setInterval(() => { qEl.classList.add('out'); setTimeout(() => { qi = (qi + 1) % QUOTES.length; qEl.textContent = QUOTES[qi]; qEl.classList.remove('out'); }, 600); }, 5000);
-
-// شغلي
-const worksEl = document.getElementById('works'), worksec = document.getElementById('worksec');
-WORKS.forEach(x => {
-  const d = document.createElement('div'); d.className = 'w'; d.tabIndex = 0;
-  const im = document.createElement('img'); im.src = x.f; im.alt = x.t; im.loading = 'lazy'; im.decoding = 'async';
-  const sp = document.createElement('span'); sp.textContent = x.t;
-  im.onerror = () => { d.remove(); if (!document.querySelector('.w')) worksec.style.display = 'none'; };
-  d.append(im, sp); worksEl.appendChild(d);
-});
-
-// أهدافي + العد التنازلي
-document.getElementById('goals').innerHTML = GOALS.map(g => `<div class="goal"><div><span>${g.t}</span><span>${g.p.toLocaleString('ar-EG')}%</span></div><div class="bar"><i style="--p:${g.p}%"></i></div></div>`).join('');
-document.getElementById('cdl').textContent = COUNTDOWN.label;
-const cdEl = document.getElementById('cd'), cdT = new Date(COUNTDOWN.date).getTime();
-function cdTick() {
-  let d = Math.max(0, cdT - Date.now());
-  if (!d) { cdEl.textContent = 'وصلنا! 🔥'; return; }
-  const v = [Math.floor(d / 864e5), Math.floor(d / 36e5) % 24, Math.floor(d / 6e4) % 60, Math.floor(d / 1e3) % 60], l = ['يوم', 'ساعة', 'دقيقة', 'ثانية'];
-  cdEl.innerHTML = v.map((n, i) => `<div><b>${n.toLocaleString('ar-EG')}</b>${l[i]}</div>`).join('');
-}
-if (COUNTDOWN.date) { cdTick(); setInterval(cdTick, 1000); } else document.getElementById('cdl').parentElement.style.display = 'none';
-
-// تبديل الثيم
-const themeBtn = document.getElementById('theme');
-function setTheme(c) { document.body.classList.toggle('calm', c); themeBtn.textContent = c ? '🔥' : '🌙'; try { localStorage.setItem('calm', c ? 1 : 0); } catch (e) {} }
-try { if (localStorage.getItem('calm') === '1') setTheme(true); } catch (e) {}
-themeBtn.addEventListener('click', () => setTheme(!document.body.classList.contains('calm')));
-// نبض الأغنية
-function beatLoop() {
-  const d = new Uint8Array(an.frequencyBinCount), bars = document.querySelectorAll('.eq i'), pulse = document.getElementById('pulse'), nameEl = document.querySelector('.name');
-  let sm = 0, last = 0, lastB = -1;
-  (function f(t) {
-    requestAnimationFrame(f);
-    if (t - last < 66) return; last = t;
-    if (audio.paused || document.hidden) { if (lastB !== 0) { pulse.style.opacity = 0; nameEl.style.setProperty('--beat', 0); lastB = 0; } return; }
-    an.getByteFrequencyData(d);
-    bars.forEach((el, i) => { el.style.transform = 'scaleY(' + (.15 + d[i * 5 + 2] / 255 * .85).toFixed(2) + ')'; });
-    if (isLite()) return;
-    let b = 0; for (let i = 0; i < 4; i++) b += d[i]; b = b / 4 / 255; sm += (b - sm) * .5;
-    const q = Math.round(sm * 20) / 20;
-    if (q !== lastB) { lastB = q; pulse.style.opacity = (q * .45).toFixed(2); nameEl.style.setProperty('--beat', q); }
-  })(0);
-}
-
-// أصوات ناعمة
-function chime(f) {
-  if (!ACX || ACX.state === 'closed') return;
-  const t = ACX.currentTime, g = ACX.createGain();
-  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.12, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + .9);
-  g.connect(ACX.destination);
-  [f, f * 1.5].forEach(x => { const o = ACX.createOscillator(); o.type = 'sine'; o.frequency.value = x; o.connect(g); o.start(t); o.stop(t + .95); });
-}
-
-// تحية حسب الوقت
-try { VN = localStorage.getItem('vname') || ''; } catch (e) {}
-function greet() {
-  const now = new Date(), h = +new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hour12: false, timeZone: 'Africa/Cairo' }).format(now) % 24;
-  const g = h >= 5 && h < 12 ? 'صباح الخير ☀️' : h < 17 && h >= 12 ? 'نهارك سعيد 🌤️' : h >= 17 && h < 21 ? 'مساء النور 🌆' : 'ليلة هادية 🌙';
-  const tm = now.toLocaleTimeString('ar-EG', { timeZone: 'Africa/Cairo', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  document.getElementById('greet').textContent = g + ' يا ' + (VN || 'زعيم') + ' • 🕒 ' + tm;
-}
-greet(); setInterval(greet, 1000);
-
-// أزرار مغناطيسية + موجة
-let mEl = null;
-addEventListener('pointermove', rafThrottle(e => {
-  if (!document.body.classList.contains('fine') || isLite()) return;
-  const b = e.target.closest && e.target.closest('.cbtn,.enter');
-  if (mEl && mEl !== b) { mEl.style.transform = ''; mEl = null; }
-  if (!b) return;
-  const r = b.getBoundingClientRect();
-  b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .22}px,${(e.clientY - r.top - r.height / 2) * .35}px)`;
-  mEl = b;
-}));
-document.addEventListener('click', e => {
-  const b = e.target.closest('.cbtn,.enter'); if (!b) return;
-  const r = b.getBoundingClientRect(), z = Math.max(r.width, r.height), sp = document.createElement('span');
-  sp.className = 'rip'; sp.style.cssText = `width:${z}px;height:${z}px;left:${e.clientX - r.left - z / 2}px;top:${e.clientY - r.top - z / 2}px`;
-  b.appendChild(sp); setTimeout(() => sp.remove(), 600);
-});
-
-// بطاقة الزعيم
-const idc = document.getElementById('idc');
-idc.innerHTML = `<div><small>بطاقة الزعيم</small><h3>${ALIAS}</h3><div>${NAME_FULL}</div><div>🎂 ${BIRTHDAY.d}/${BIRTHDAY.m}/${BIRTHDAY.y}</div><div>📍 ${CITY}</div></div><div class="idq" id="idq"></div>`;
-function mkQR() { if (window.QRCode) new QRCode(document.getElementById('idq'), { text: SITE_URL, width: 96, height: 96 }); else setTimeout(mkQR, 800); }
-new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { o.disconnect(); mkQR(); } }, { threshold: .2 }).observe(idc);
-document.getElementById('dlcard').onclick = async () => {
-  try { await document.fonts.ready; } catch (e) {}
-  const c = document.createElement('canvas'); c.width = 1000; c.height = 600; const x = c.getContext('2d');
-  const g = x.createLinearGradient(0, 0, 1000, 600); g.addColorStop(0, '#2a1208'); g.addColorStop(1, '#0b0806'); x.fillStyle = g; x.fillRect(0, 0, 1000, 600);
-  x.strokeStyle = '#ffd76a'; x.lineWidth = 6; x.strokeRect(24, 24, 952, 552); x.lineWidth = 2; x.strokeStyle = 'rgba(255,106,26,.7)'; x.strokeRect(40, 40, 920, 520);
-  x.direction = 'rtl'; x.textAlign = 'right';
-  x.fillStyle = '#e9c98c'; x.font = "600 30px Cairo, sans-serif"; x.fillText('بطاقة الزعيم', 940, 110);
-  x.fillStyle = '#ffd76a'; x.font = "96px Lalezar, Cairo, sans-serif"; x.fillText(ALIAS, 940, 230);
-  x.fillStyle = '#f3e8d8'; x.font = "600 36px Cairo, sans-serif";
-  x.fillText(NAME_FULL, 940, 310); x.fillText('🎂 ' + BIRTHDAY.d + '/' + BIRTHDAY.m + '/' + BIRTHDAY.y, 940, 375); x.fillText('📍 ' + CITY, 940, 440);
-  const q = document.querySelector('#idq canvas');
-  if (q) { x.fillStyle = '#fff'; x.fillRect(64, 370, 170, 170); x.drawImage(q, 74, 380, 150, 150); }
-  x.textAlign = 'center'; x.fillStyle = '#ff8a3d'; x.font = "28px Cairo, sans-serif"; x.fillText(SITE_URL.replace('https://', ''), 500, 535);
-  c.toBlob(b => { const u = URL.createObjectURL(b), a = document.createElement('a'); a.href = u; a.download = 'bisoo-card.png'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000); });
-};
-
-// رسالة لبسام
-const mName = document.getElementById('mName'), mText = document.getElementById('mText');
-mName.value = VN;
-document.getElementById('mSend').onclick = () => {
-  const n = mName.value.trim(), t = mText.value.trim();
-  if (!t) { note('اكتب رسالتك الأول'); return; }
-  open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent((n ? 'أنا ' + n + '\n' : '') + t), '_blank');
-};
-
-// السر: اضغط على الاسم 5 مرات
-let tc = 0, tt = 0;
-document.querySelector('.name').addEventListener('click', () => { const n = Date.now(); tc = n - tt > 3000 ? 1 : tc + 1; tt = n; if (tc >= 5) { tc = 0; fireBurst(); } });
-function fireBurst() {
-  roar(); navigator.vibrate && navigator.vibrate([100, 50, 200, 50, 300]);
-  const r = document.querySelector('.name').getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-  for (let i = 0; i < 24; i++) {
-    const s = document.createElement('i'), a = Math.random() * 6.28, d = 90 + Math.random() * 260, z = 6 + Math.random() * 10;
-    s.className = 'spark'; s.style.cssText = `left:${cx - 4}px;top:${cy - 4}px;--sx:${Math.cos(a) * d}px;--sy:${Math.sin(a) * d}px;width:${z}px;height:${z}px`;
-    document.body.appendChild(s); setTimeout(() => s.remove(), 900);
-  }
-  const h = document.querySelector('.hero'); h.classList.remove('shake'); void h.offsetWidth; h.classList.add('shake');
-  note('🔥 فتحت السر! أنت ابن جهتك الأصيل 💪');
-}
-document.addEventListener('visibilitychange', () => document.body.classList.toggle('hid', document.hidden));
-
-// وصول بالكيبورد للصور
-document.querySelectorAll('.g').forEach(g => { g.tabIndex = 0; g.setAttribute('role', 'button'); });
-document.addEventListener('keydown', e => {
-  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.g,.w')) { e.preventDefault(); e.target.click(); }
-});
-
-// عدّاد زوار حقيقي (اختياري)
-if (GOATCOUNTER) { const sc = document.createElement('script'); sc.async = true; sc.src = 'https://gc.zgo.at/count.js'; sc.dataset.goatcounter = 'https://' + GOATCOUNTER + '.goatcounter.com/count'; document.head.appendChild(sc); }
-</script>
-</body>
-</html>
+  r
