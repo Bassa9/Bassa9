@@ -464,14 +464,16 @@ const playBtn = document.getElementById('playBtn');
 const mini = document.getElementById('mini');
 document.getElementById('songTitle').textContent = SONG_TITLE;
 let started = false;
-audio.src = SONG_FILE;
+const SONG_TRY = [SONG_FILE, 'song.m4a', 'song.ogg', 'song.wav']; let si = 0, songMissing = false;
+audio.src = SONG_TRY[0];
 function note(m) {
   const d = document.createElement('div'); d.textContent = m;
   d.style.cssText = 'position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:4000;background:#7a1208;color:#fff;padding:10px 18px;border-radius:14px;font-size:.95rem;max-width:90vw;text-align:center;border:1px solid #ff9d00';
   document.body.appendChild(d); setTimeout(() => d.remove(), 7000);
 }
 audio.addEventListener('error', () => {
-  if (started) note('مش لاقي ملف الأغنية. ارفعه على GitHub باسم ' + SONG_FILE);
+  if (++si < SONG_TRY.length) { audio.src = SONG_TRY[si]; if (started) audio.play().then(() => setState(true)).catch(() => {}); }
+  else { songMissing = true; if (started) note('مش لاقي ملف الأغنية. ارفعه على GitHub باسم ' + SONG_FILE); }
 });
 function setState(on) {
   player.classList.toggle('playing', on);
@@ -493,7 +495,7 @@ document.getElementById('enterBtn').addEventListener('click', () => {
   navigator.vibrate && navigator.vibrate([80, 40, 160]);
   document.body.classList.remove('locked');
   started = true;
-  audio.play().then(() => setState(true)).catch(() => setState(false));
+  audio.play().then(() => setState(true)).catch(() => { setState(false); if (songMissing) note('مش لاقي ملف الأغنية. ارفعه على GitHub باسم ' + SONG_FILE); });
   player.classList.add('show');
 });
 playBtn.addEventListener('click', toggle);
@@ -694,11 +696,11 @@ addEventListener('beforeinstallprompt', e => {
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {});
 
 // صوتك على الوصف (باص + صدى + قاعة)
-const VOICE_TRY = [...new Set([VOICE_FILE, 'voice.m4a', 'voice.wav', 'voice.ogg'])];
-const voiceData = new Promise(res => addEventListener('load', () => setTimeout(() => { (async () => {
+const VOICE_TRY = [...new Set([VOICE_FILE, 'voice1.m4a', 'voice1.wav', 'voice1.ogg', 'Voice1.mp3'])];
+const voiceData = (async () => {
   for (const f of VOICE_TRY) { try { const r = await fetch(f); if (r.ok) return await r.arrayBuffer(); } catch (e) {} }
   return null;
-})().then(res); }, 1200)));
+})();
 async function playVoice(ctx) {
   try {
     const data = await voiceData; if (!data) { note('ملف صوتك مش موجود. ارفعه على GitHub باسم ' + VOICE_FILE); return; }
