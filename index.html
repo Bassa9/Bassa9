@@ -2,141 +2,279 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>بيسو البلد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Segoe UI', Tahoma, Arial, sans-serif; color:#fff; overflow-x:hidden; background:#0d0d0d; }
-.bg {
-  position: fixed;
-  top:0; left:0; right:0; bottom:0;
-  z-index: -2;
-  background: url('dragon.jpg') center/cover no-repeat, linear-gradient(180deg,#1a1208 0%,#0d0d0d 100%);
-  animation: slowMove 150s ease-in-out infinite alternate;
-  transform-origin: center center;
+:root{
+  --ember:#ff6a1a; --gold:#ffd76a; --blood:#b3170f; --ash:#0b0806; --smoke:#f3e8d8;
 }
-@keyframes slowMove {
-  from { transform: scale(1) translateY(0); }
-  to { transform: scale(1.12) translateY(-2%); }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;color:var(--smoke);background:var(--ash);overflow-x:hidden}
+body.locked{overflow:hidden}
+
+/* الخلفية */
+.bg{position:fixed;inset:-4%;z-index:-2;
+  background:url('dragon.jpg') center 30%/cover no-repeat,linear-gradient(180deg,#1a1208,#0b0806);
+  animation:breathe 16s ease-in-out infinite alternate;will-change:transform}
+@keyframes breathe{from{transform:scale(1.02);filter:brightness(1.05) contrast(1.08)}to{transform:scale(1.1) translateY(-1.5%);filter:brightness(1.22) contrast(1.12)}}
+.bg::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 40%,transparent 35%,rgba(0,0,0,.6) 100%),
+             linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.08) 40%,rgba(0,0,0,.78))}
+.fog{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(60% 28% at 20% 80%,rgba(255,255,255,.11),transparent),radial-gradient(50% 25% at 80% 68%,rgba(255,255,255,.08),transparent);
+  animation:fog 30s ease-in-out infinite alternate}
+@keyframes fog{to{transform:translateX(-8%)}}
+.glow{position:fixed;left:0;right:0;bottom:0;height:35vh;z-index:-1;pointer-events:none;
+  background:linear-gradient(0deg,rgba(255,80,0,.3),transparent);animation:flick 3s ease-in-out infinite alternate}
+@keyframes flick{to{opacity:.5}}
+.embers{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.ember{position:absolute;bottom:-20px;border-radius:50%;
+  background:radial-gradient(circle,#ffd76a,rgba(255,106,26,0));animation:rise linear infinite}
+@keyframes rise{from{transform:translate(0,0);opacity:.9}to{transform:translate(var(--dx),-110vh);opacity:0}}
+
+/* بوابة الدخول */
+.gate{position:fixed;inset:0;z-index:2000;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:26px;text-align:center;padding:24px;background:radial-gradient(circle at 50% 50%,#1b0c05,#050302 70%);
+  transition:opacity 1.2s ease,visibility 1.2s}
+.gate.open{opacity:0;visibility:hidden}
+.gate.open .portal{transform:scale(14);opacity:0}
+.portal{width:150px;height:150px;border-radius:50%;position:relative;transition:transform 1.4s cubic-bezier(.7,0,.3,1),opacity 1.2s;
+  background:radial-gradient(circle,#000 38%,#ff6a1a 40%,#b3170f 55%,transparent 70%);
+  box-shadow:0 0 60px #ff6a1a,0 0 140px #b3170f;animation:pulse 2.4s ease-in-out infinite}
+.portal::before{content:'';position:absolute;inset:-14px;border-radius:50%;
+  border:2px dashed rgba(255,215,106,.7);animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 0 90px #ff9d00,0 0 200px #b3170f}}
+.gate p{font-family:'Lalezar','Cairo',sans-serif;font-size:1.15rem;color:#e9c98c;letter-spacing:.04em}
+.enter{font-family:'Lalezar','Cairo',sans-serif;font-size:1.45rem;color:#1a0b00;border:0;cursor:pointer;
+  padding:14px 44px;border-radius:50px;background:linear-gradient(135deg,#ffb300,#ff6a1a);
+  box-shadow:0 0 30px rgba(255,106,26,.7);transition:transform .2s}
+.enter:active{transform:scale(.95)}
+
+/* الواجهة */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;align-items:center;
+  text-align:center;padding:44px 16px 80px;gap:20px}
+.top{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+.tagline{width:min(100%,640px);padding:22px 18px;border-radius:24px;background:rgba(8,4,2,.58);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,200,100,.55);
+  box-shadow:0 0 30px rgba(255,100,0,.35),inset 0 0 30px rgba(0,0,0,.4);
+  font-family:'Lalezar','Cairo',sans-serif;font-size:clamp(1.6rem,6.4vw,2.6rem);line-height:1.6;color:#fff4d6;
+  text-shadow:0 2px 0 #000,0 0 14px rgba(255,150,0,.7)}
+.tagline b{display:block;font-weight:400;font-size:1.3em;color:#ffcf4a;
+  text-shadow:0 3px 0 #7a2a00,0 0 22px #ff8a00,0 0 44px rgba(255,80,0,.8)}
+.welcome{font-size:1.25rem;color:#ff8a3d;text-shadow:0 2px 10px #000;letter-spacing:.05em}
+.name{font-family:'Lalezar','Cairo',sans-serif;font-size:clamp(3.6rem,17vw,8rem);line-height:1.15;
+  background:linear-gradient(180deg,#fff 0%,#ffe9a8 35%,#ff7a1a 75%,#b3170f 100%);
+  background-size:100% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 4px 0 rgba(0,0,0,.9)) drop-shadow(0 0 28px rgba(255,90,0,.8));
+  animation:flame 4s ease-in-out infinite alternate}
+@keyframes flame{from{background-position:0 0}to{background-position:0 40%}}
+.scroll{position:absolute;bottom:26px;color:#e9c98c;font-size:.95rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+
+.section{max-width:1040px;margin:0 auto;padding:60px 18px}
+.section h2{font-family:'Lalezar','Cairo',sans-serif;font-size:2.3rem;margin-bottom:22px;color:var(--gold);
+  text-shadow:0 0 18px rgba(255,120,0,.7);display:flex;align-items:center;gap:14px}
+.section h2::after{content:'';flex:1;height:1px;background:linear-gradient(270deg,transparent,rgba(255,150,0,.7))}
+.card{background:rgba(18,9,4,.62);border:1px solid rgba(255,122,47,.45);border-radius:22px;padding:28px;
+  font-size:1.35rem;line-height:1.9;color:#f6ead9;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 10px 40px rgba(0,0,0,.6),inset 0 0 40px rgba(255,90,0,.08)}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .9s,transform .9s}
+.reveal.in{opacity:1;transform:none}
+
+/* المعرض */
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:150px;grid-auto-flow:dense;gap:10px}
+.g{position:relative;border-radius:20px;overflow:hidden;cursor:pointer;border:1px solid rgba(255,150,0,.4);
+  background:#120a05;box-shadow:0 8px 24px rgba(0,0,0,.6);isolation:isolate}
+.g img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1),filter .5s;filter:saturate(1.05) contrast(1.05)}
+.g::after{content:'';position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,transparent 55%,rgba(179,23,15,.55));opacity:.7;transition:opacity .4s}
+.g:hover img,.g:active img{transform:scale(1.12)}
+.g:hover{border-color:var(--gold);box-shadow:0 0 28px rgba(255,120,0,.65)}
+.g:hover::after{opacity:.15}
+.g:nth-child(1){grid-column:span 2;grid-row:span 2}
+.g:nth-child(4){grid-row:span 2}
+.g:nth-child(7){grid-column:span 2}
+.g:nth-child(9){grid-row:span 2}
+@media(min-width:700px){
+  .gallery{grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:14px}
+  .g:nth-child(7){grid-column:span 2}
 }
-.bg::after {
-  content:'';
-  position:absolute; top:0; left:0; right:0; bottom:0;
-  background: linear-gradient(180deg, rgba(0,0,0,.3), rgba(0,0,0,.7));
-}
-.hero {
-  min-height:100vh;
-  position:relative;
-  display:flex; flex-direction:column; justify-content:space-between;
-  padding:50px 20px; text-align:center; overflow:hidden;
-}
-.gold-text {
-  font-size:2.4em; font-weight:bold; color:#ffd76a; line-height:1.6;
-  text-shadow:0 0 15px #ff9d00, 0 0 35px #ff6a00;
-  animation:glow 2.5s ease-in-out infinite alternate;
-}
-@keyframes glow {
-  from { text-shadow:0 0 10px #ff9d00, 0 0 25px #ff6a00; }
-  to { text-shadow:0 0 25px #ffb300, 0 0 50px #ff7b00; }
-}
-.welcome { color:#ff7a2f; font-size:1.4em; margin-top:50px; }
-.big-name { font-size:3.5em; font-weight:bold; color:#f5f5f5; text-shadow:0 4px 20px rgba(0,0,0,.8); margin-top:10px; }
-.particle { position:absolute; background:radial-gradient(circle,#ffd76a,transparent); border-radius:50%; animation:float linear infinite; }
-@keyframes float { from { transform:translateY(0); opacity:.8; } to { transform:translateY(-110vh); opacity:0; } }
-.section { max-width:950px; margin:50px auto; padding:0 20px; position:relative; }
-.section h2 { font-size:2.2em; margin-bottom:20px; text-shadow:0 0 15px rgba(255,150,0,.6); }
-.card {
-  background:rgba(15,9,4,.75); border:1px solid rgba(255,122,47,.5); border-radius:18px;
-  padding:25px; font-size:1.2em; line-height:1.8; color:#f0e6d8; box-shadow:0 8px 30px rgba(0,0,0,.6);
-  backdrop-filter: blur(4px);
-}
-.music-box { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }
-.btn { background:linear-gradient(135deg,#ff7a2f,#ff9d00); border:none; color:#1a0e00; font-weight:bold; font-size:1.1em; padding:12px 28px; border-radius:30px; cursor:pointer; }
-input[type=file] { color:#ffd76a; }
-.gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:15px; }
-.gallery-item { height:240px; border-radius:15px; overflow:hidden; border:2px solid rgba(255,150,0,.5); background:#111; cursor:pointer; }
-.gallery-item img { width:100%; height:100%; object-fit:cover; }
-.lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.95); z-index:1000; justify-content:center; align-items:center; padding:20px; }
-.lightbox.active { display:flex; }
-.lightbox img { max-width:95%; max-height:95%; border-radius:15px; border:3px solid #ff9d00; }
-.lightbox-close { position:absolute; top:20px; right:30px; color:#ffd76a; font-size:50px; cursor:pointer; background:none; border:none; }
-footer { text-align:center; padding:35px; color:#ff7a2f; font-size:1.15em; text-shadow:0 2px 10px #000; }
-@media (max-width:600px){ .gold-text{font-size:1.6em;} .big-name{font-size:2.4em;} }
+
+/* النافذة */
+.lightbox{position:fixed;inset:0;z-index:1500;display:none;align-items:center;justify-content:center;
+  background:rgba(5,2,1,.96);padding:16px}
+.lightbox.active{display:flex}
+.lightbox img{max-width:100%;max-height:88vh;border-radius:16px;border:2px solid var(--ember);box-shadow:0 0 60px rgba(255,90,0,.5)}
+.lb-btn{position:absolute;background:rgba(0,0,0,.5);border:1px solid rgba(255,150,0,.6);color:var(--gold);
+  width:50px;height:50px;border-radius:50%;font-size:26px;cursor:pointer}
+.lb-close{top:18px;right:18px}.lb-prev{right:14px;top:50%}.lb-next{left:14px;top:50%}
+.lb-count{position:absolute;bottom:18px;color:#e9c98c;font-size:.95rem}
+
+/* مشغل الأغنية */
+.player{display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-radius:50px;width:min(100%,360px);
+  background:rgba(18,9,4,.75);border:1px solid rgba(255,122,47,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  box-shadow:0 0 24px rgba(255,90,0,.4);opacity:0;transform:translateY(-10px);transition:opacity .8s .8s,transform .8s .8s}
+.player.show{opacity:1;transform:none}
+.mini{position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:900;width:52px;height:52px;
+  border-radius:50%;border:1px solid rgba(255,122,47,.7);background:rgba(18,9,4,.85);color:var(--gold);font-size:20px;
+  cursor:pointer;display:none;box-shadow:0 0 20px rgba(255,90,0,.4)}
+.mini.show{display:grid;place-items:center}
+.pbtn{flex:none;width:44px;height:44px;border-radius:50%;border:0;cursor:pointer;font-size:18px;color:#1a0b00;
+  background:linear-gradient(135deg,#ffb300,#ff6a1a)}
+.ptitle{flex:1;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eq{display:flex;gap:3px;align-items:flex-end;height:20px}
+.eq i{width:4px;background:var(--gold);border-radius:2px;height:20%;animation:eq 1s ease-in-out infinite;animation-play-state:paused}
+.player.playing .eq i{animation-play-state:running}
+.eq i:nth-child(2){animation-delay:.2s}.eq i:nth-child(3){animation-delay:.45s}.eq i:nth-child(4){animation-delay:.1s}
+@keyframes eq{50%{height:100%}}
+
+footer{text-align:center;padding:40px 20px 100px;color:#ff8a3d;font-size:1.15rem;text-shadow:0 2px 10px #000}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
-<body>
+<body class="locked">
 <div class="bg"></div>
-<div class="hero">
-  <div class="gold-text">وجودك هنا يعني إنك رأيت<br>أعظم رجل في العالم</div>
+<div class="fog"></div><div class="glow"></div>
+<div class="embers" id="embers"></div>
+
+<div class="gate" id="gate">
+  <div class="portal"></div>
+  <p>بوابة عالم آخر</p>
+  <button class="enter" id="enterBtn">ادخل العالم 🔥</button>
+</div>
+
+<header class="hero">
+  <div class="top">
+    <div class="tagline">وجودك هنا يعني إنك رأيت<b>أعظم رجل في العالم</b></div>
+    <div class="player" id="player">
+      <button class="pbtn" id="playBtn" aria-label="تشغيل / إيقاف">⏸</button>
+      <div class="ptitle" id="songTitle"></div>
+      <div class="eq"><i></i><i></i><i></i><i></i></div>
+    </div>
+  </div>
   <div>
     <div class="welcome">مرحباً بيك في عالمي</div>
-    <div class="big-name">بيسو البلد</div>
+    <h1 class="name">بيسو البلد</h1>
   </div>
-</div>
-<div class="section">
-  <h2>عني</h2>
-  <div class="card">إما أن تكون أسطورة، أو لا تكون شيئاً على الإطلاق.</div>
-</div>
-<div class="section">
-  <h2>🎵 اختار أغنيتك</h2>
-  <div class="card music-box">
-    <button class="btn" id="playBtn">▶ تشغيل</button>
-    <input type="file" id="songInput" accept="audio/*">
-    <audio id="player"></audio>
-  </div>
-</div>
-<div class="section">
-  <h2>صوري</h2>
-  <div class="gallery">
-    <div class="gallery-item"><img src="photo1.jpg"></div>
-    <div class="gallery-item"><img src="photo2.jpg"></div>
-    <div class="gallery-item"><img src="photo3.jpg"></div>
-    <div class="gallery-item"><img src="photo4.jpg"></div>
-    <div class="gallery-item"><img src="photo5.jpg"></div>
-    <div class="gallery-item"><img src="photo6.jpg"></div>
-    <div class="gallery-item"><img src="photo7.jpg"></div>
-    <div class="gallery-item"><img src="photo8.png"></div>
-    <div class="gallery-item"><img src="photo9.jpg"></div>
-    <div class="gallery-item"><img src="photo10.jpg"></div>
-  </div>
-</div>
+  <div class="scroll">▼</div>
+</header>
+
+<main>
+  <section class="section reveal">
+    <h2>عني</h2>
+    <div class="card">إما أن تكون أسطورة، أو لا تكون شيئاً على الإطلاق.</div>
+  </section>
+
+  <section class="section reveal">
+    <h2>صوري</h2>
+    <div class="gallery" id="gallery">
+      <div class="g"><img src="photo1.jpg" alt="" loading="lazy"></div>
+      <div class="g"><img src="photo2.jpg" alt="" loading="lazy"></div>
+      <div class="g"><img src="photo3.jpg" alt="" loading="lazy"></div>
+      <div class="g"><img src="photo4.jpg" alt="" loading="lazy"></div>
+      <div class="g"><img src="photo5.jpg" alt="" loading="lazy"></div>
+      <div class="g"><img src="photo6.jpg" alt="" loading="lazy"></div>
+      <div class="g"><img src="photo7.jpg" alt="" loading="lazy"></div>
+      <div class="g"><img src="photo8.png" alt="" loading="lazy"></div>
+      <div class="g"><img src="photo9.jpg" alt="" loading="lazy"></div>
+      <div class="g"><img src="photo10.jpg" alt="" loading="lazy"></div>
+    </div>
+  </section>
+</main>
+
 <footer>صُنع بنار • بيسو البلد 🔥</footer>
+
+<button class="mini" id="mini" aria-label="الأغنية">⏸</button>
+<audio id="audio" loop preload="auto"></audio>
+
 <div class="lightbox" id="lightbox">
-  <button class="lightbox-close" onclick="closeLightbox()">×</button>
-  <img id="lightbox-img" src="">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="إغلاق">×</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="السابق">›</button>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="التالي">‹</button>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-count" id="lbCount"></div>
 </div>
+
 <script>
-const hero = document.querySelector('.hero');
-for (let i=0;i<35;i++){
-  const p = document.createElement('span');
-  p.className='particle';
-  const s = Math.random()*8+3;
-  p.style.width = s+'px'; p.style.height = s+'px';
-  p.style.right = Math.random()*100+'%';
-  p.style.bottom = '-20px';
-  p.style.animationDuration = (Math.random()*8+6)+'s';
-  p.style.animationDelay = (Math.random()*8)+'s';
-  hero.appendChild(p);
+/* ====== غيّر الأغنية من هنا ======
+   1) ارفع ملف الأغنية في نفس مكان index.html
+   2) اكتب اسم الملف هنا، واسم الأغنية اللي يظهر للزائر */
+const SONG_FILE  = 'song.mp3';
+const SONG_TITLE = '🎵 اسم الأغنية هنا';
+/* ================================= */
+
+// جمرات
+const embers = document.getElementById('embers');
+for (let i = 0; i < 40; i++) {
+  const e = document.createElement('span');
+  e.className = 'ember';
+  const s = Math.random() * 7 + 3;
+  e.style.cssText = `width:${s}px;height:${s}px;right:${Math.random()*100}%;` +
+    `--dx:${(Math.random()*160-80)}px;animation-duration:${Math.random()*9+7}s;animation-delay:${Math.random()*9}s`;
+  embers.appendChild(e);
 }
-const songInput = document.getElementById('songInput');
+
+// الأغنية + البوابة
+const audio = document.getElementById('audio');
 const player = document.getElementById('player');
 const playBtn = document.getElementById('playBtn');
-songInput.addEventListener('change', e => {
-  const f = e.target.files[0];
-  if (f) { player.src = URL.createObjectURL(f); player.play(); playBtn.textContent = '⏸ إيقاف'; }
+document.getElementById('songTitle').textContent = SONG_TITLE;
+audio.src = SONG_FILE;
+
+function setState(on) {
+  player.classList.toggle('playing', on);
+  playBtn.textContent = on ? '⏸' : '▶';
+  mini.textContent = on ? '⏸' : '▶';
+}
+const mini = document.getElementById('mini');
+const toggle = () => { if (audio.paused) { audio.play(); setState(true); } else { audio.pause(); setState(false); } };
+mini.addEventListener('click', toggle);
+addEventListener('scroll', () => mini.classList.toggle('show', scrollY > innerHeight * .6), { passive: true });
+document.getElementById('enterBtn').addEventListener('click', () => {
+  document.getElementById('gate').classList.add('open');
+  document.body.classList.remove('locked');
+  audio.play().then(() => setState(true)).catch(() => setState(false));
+  player.classList.add('show');
 });
-playBtn.addEventListener('click', () => {
-  if (!player.src) { songInput.click(); return; }
-  if (player.paused) { player.play(); playBtn.textContent = '⏸ إيقاف'; }
-  else { player.pause(); playBtn.textContent = '▶ تشغيل'; }
+playBtn.addEventListener('click', toggle);
+
+// ظهور الأقسام
+const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) x.target.classList.add('in'); }), { threshold: .15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// المعرض
+const imgs = [...document.querySelectorAll('.g img')];
+const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg'), lbCount = document.getElementById('lbCount');
+let cur = 0;
+function show(i) {
+  cur = (i + imgs.length) % imgs.length;
+  lbImg.src = imgs[cur].src;
+  lbCount.textContent = (cur + 1) + ' / ' + imgs.length;
+  lb.classList.add('active');
+}
+imgs.forEach((im, i) => im.parentElement.addEventListener('click', () => show(i)));
+const close = () => lb.classList.remove('active');
+document.getElementById('lbClose').onclick = close;
+document.getElementById('lbPrev').onclick = () => show(cur - 1);
+document.getElementById('lbNext').onclick = () => show(cur + 1);
+lb.addEventListener('click', e => { if (e.target === lb) close(); });
+document.addEventListener('keydown', e => {
+  if (!lb.classList.contains('active')) return;
+  if (e.key === 'Escape') close();
+  if (e.key === 'ArrowLeft') show(cur + 1);
+  if (e.key === 'ArrowRight') show(cur - 1);
 });
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
-document.querySelectorAll('.gallery-item img').forEach(img => {
-  img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.classList.add('active'); });
+let sx = 0;
+lb.addEventListener('touchstart', e => sx = e.touches[0].clientX, { passive: true });
+lb.addEventListener('touchend', e => {
+  const d = e.changedTouches[0].clientX - sx;
+  if (Math.abs(d) > 50) show(d < 0 ? cur + 1 : cur - 1);
 });
-function closeLightbox(){ lightbox.classList.remove('active'); }
-lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
 </script>
 </body>
 </html>
