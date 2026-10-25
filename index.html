@@ -305,7 +305,7 @@ button.cbtn{border:0;cursor:pointer}
 /* ====== غيّر الأغنية من هنا ======
    1) ارفع ملف الأغنية في نفس مكان index.html
    2) اكتب اسم الملف هنا، واسم الأغنية اللي يظهر للزائر */
-const SONG_FILE  = 'song.m4a';
+const SONG_FILE  = 'voice.mp3';
 const SONG_TITLE = '🎵 اسم الأغنية هنا';
 const VOICE_FILE = 'voice.mp3';   // تسجيل صوتك للوصف (ارفعه بنفس الاسم)
 const VOICE_PITCH = 0.85;           // 1 = صوتك العادي، أقل = أعمق وأتقل وأرعب (جرب 0.8 لـ 0.9)
@@ -328,7 +328,7 @@ const TITLES = [                   // الألقاب: أيقونة / اسم / ك
   { i: '🐉', t: 'ابن التنين', d: 'الهيبة مش بتتعلم، بتتولد' },
   { i: '⚡', t: 'السرعة',   d: 'قبل ما تفكر، أنا خلصت' }
 ];
-/* ================================= */
+/* =================================*/
 
 // جمرات
 const embers = document.getElementById('embers');
@@ -345,9 +345,10 @@ for (let i = 0; i < 40; i++) {
 const audio = document.getElementById('audio');
 const player = document.getElementById('player');
 const playBtn = document.getElementById('playBtn');
+const mini = document.getElementById('mini');
 document.getElementById('songTitle').textContent = SONG_TITLE;
 let started = false, si = 0;
-const SONG_TRY = [...new Set([SONG_FILE, 'song.mp3', 'song.m4a', 'song.wav', 'song.ogg'])];
+const SONG_TRY = [...new Set([SONG_FILE, 'voice.mp3'])];
 audio.src = SONG_TRY[0];
 function note(m) {
   const d = document.createElement('div'); d.textContent = m;
@@ -364,7 +365,6 @@ function setState(on) {
   playBtn.textContent = on ? '⏸' : '▶';
   mini.textContent = on ? '⏸' : '▶';
 }
-const mini = document.getElementById('mini');
 const toggle = () => { if (audio.paused) { audio.play(); setState(true); } else { audio.pause(); setState(false); } };
 mini.addEventListener('click', toggle);
 addEventListener('scroll', () => mini.classList.toggle('show', scrollY > innerHeight * .6), { passive: true });
@@ -446,7 +446,9 @@ function detectEyes() {
 }
 function placeEyes() {
   if (!bgImg.naturalWidth) return;
-  if (!eyes.length) eyes = detectEyes().map(pt => { const e = document.createElement('i'); e.className = 'eye'; bgEl.appendChild(e); return { e, pt }; });
+  if (!eyes.length) {
+    eyes = detectEyes().map(pt => { const e = document.createElement('i'); e.className = 'eye'; bgEl.appendChild(e); return { e, pt }; });
+  }
   const W = bgEl.offsetWidth, H = bgEl.offsetHeight, s = Math.max(W / bgImg.naturalWidth, H / bgImg.naturalHeight);
   const iw = bgImg.naturalWidth * s, ih = bgImg.naturalHeight * s, ox = (W - iw) / 2, oy = (H - ih) * .3, z = W * .1;
   eyes.forEach(({ e, pt }) => {
@@ -633,4 +635,4 @@ function roar() {
 }
 </script>
 </body>
-  </html>
+</html>
