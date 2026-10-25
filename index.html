@@ -346,7 +346,18 @@ const audio = document.getElementById('audio');
 const player = document.getElementById('player');
 const playBtn = document.getElementById('playBtn');
 document.getElementById('songTitle').textContent = SONG_TITLE;
-audio.src = SONG_FILE;
+let started = false, si = 0;
+const SONG_TRY = [...new Set([SONG_FILE, 'song.mp3', 'song.m4a', 'song.wav', 'song.ogg'])];
+audio.src = SONG_TRY[0];
+function note(m) {
+  const d = document.createElement('div'); d.textContent = m;
+  d.style.cssText = 'position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:4000;background:#7a1208;color:#fff;padding:10px 18px;border-radius:14px;font-size:.95rem;max-width:90vw;text-align:center;border:1px solid #ff9d00';
+  document.body.appendChild(d); setTimeout(() => d.remove(), 7000);
+}
+audio.addEventListener('error', () => {
+  if (++si < SONG_TRY.length) { audio.src = SONG_TRY[si]; if (started) audio.play().then(() => setState(true)).catch(() => {}); }
+  else { document.getElementById('songTitle').textContent = '⚠ ملف الأغنية مش موجود'; if (started) note('مش لاقي ملف الأغنية. ارفعه على GitHub باسم ' + SONG_FILE); }
+});
 
 function setState(on) {
   player.classList.toggle('playing', on);
@@ -361,6 +372,7 @@ document.getElementById('enterBtn').addEventListener('click', () => {
   document.getElementById('gate').classList.add('open');
   roar(); slam(); setTimeout(playVoice, 1000); navigator.vibrate && navigator.vibrate([80,40,160]);
   document.body.classList.remove('locked');
+  started = true;
   audio.play().then(() => setState(true)).catch(() => setState(false));
   player.classList.add('show');
 });
@@ -560,10 +572,14 @@ addEventListener('beforeinstallprompt', e => {
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 
 // صوتك على الوصف بتأثيرات فخمة (باص + صدى + قاعة)
-const voiceData = fetch(VOICE_FILE).then(r => { if (!r.ok) throw 0; return r.arrayBuffer(); }).catch(() => null);
+const VOICE_TRY = [...new Set([VOICE_FILE, 'voice.mp3', 'voice.m4a', 'voice.wav', 'voice.ogg'])];
+const voiceData = (async () => {
+  for (const f of VOICE_TRY) { try { const r = await fetch(f); if (r.ok) return await r.arrayBuffer(); } catch (e) {} }
+  return null;
+})();
 async function playVoice() {
   try {
-    const data = await voiceData; if (!data) return;
+    const data = await voiceData; if (!data) { note('ملف صوتك مش موجود. ارفعه على GitHub باسم ' + VOICE_FILE); return; }
     const A = new (window.AudioContext || window.webkitAudioContext)();
     if (A.state === 'suspended') await A.resume();
     const buf = await A.decodeAudioData(data.slice(0));
