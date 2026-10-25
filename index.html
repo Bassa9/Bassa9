@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>بيسو البلد</title>
+<meta name="description" content="وجودك هنا يعني إنك رأيت أعظم رجل في العالم 🔥🐉">
+<meta property="og:type" content="website">
+<meta property="og:title" content="بيسو البلد 🔥">
+<meta property="og:description" content="وجودك هنا يعني إنك رأيت أعظم رجل في العالم. ادخل عالمي 🐉">
+<meta property="og:image" content="https://bassa9.github.io/dragon.jpg">
+<meta property="og:url" content="https://bassa9.github.io">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b0806">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
@@ -17,7 +28,9 @@ body{font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;color:var(--smoke);b
 body.locked{overflow:hidden}
 
 /* الخلفية */
-.bg{position:fixed;inset:-4%;z-index:-2;
+.bgwrap{position:fixed;inset:0;z-index:-2;overflow:hidden}
+.bgmove{position:absolute;inset:-3%;transition:transform .25s ease-out}
+.bg{position:absolute;inset:0;
   background:url('dragon.jpg') center 30%/cover no-repeat,linear-gradient(180deg,#1a1208,#0b0806);
   animation:breathe 16s ease-in-out infinite alternate;will-change:transform}
 @keyframes breathe{from{transform:scale(1.02);filter:brightness(1.05) contrast(1.08)}to{transform:scale(1.1) translateY(-1.5%);filter:brightness(1.22) contrast(1.12)}}
@@ -31,6 +44,36 @@ body.locked{overflow:hidden}
 .glow{position:fixed;left:0;right:0;bottom:0;height:35vh;z-index:-1;pointer-events:none;
   background:linear-gradient(0deg,rgba(255,80,0,.3),transparent);animation:flick 3s ease-in-out infinite alternate}
 @keyframes flick{to{opacity:.5}}
+.eye{position:absolute;z-index:2;border-radius:50%;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(circle,rgba(255,70,25,.95) 0%,rgba(255,40,0,.55) 25%,transparent 65%);animation:eyes 3.4s ease-in-out infinite}
+@keyframes eyes{0%{opacity:.55;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}92%{opacity:.1;transform:scale(.6)}100%{opacity:.55;transform:scale(.8)}}
+.pct{font-family:'Lalezar','Cairo',sans-serif;font-size:2.4rem;color:#ffd76a;text-shadow:0 0 16px #ff6a1a}
+.enter[hidden]{display:none}
+.type{min-height:5.5em}
+.type::after{content:'▍';color:#ffb300;animation:blink .8s steps(1) infinite}
+.type.done::after{display:none}
+@keyframes blink{50%{opacity:0}}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{text-align:center;padding:22px 10px;border-radius:20px;background:rgba(18,9,4,.62);border:1px solid rgba(255,122,47,.45);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.stat b{display:block;font-family:'Lalezar','Cairo',sans-serif;font-weight:400;font-size:3rem;color:#ffcf4a;text-shadow:0 0 20px #ff6a1a}
+.stat span{color:#e9c98c}
+.flips{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.flip{perspective:800px;height:175px;cursor:pointer}
+.fi{position:relative;width:100%;height:100%;transition:transform .7s;transform-style:preserve-3d}
+.flip.on .fi{transform:rotateY(180deg)}
+.ff,.fb{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:20px;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:14px;text-align:center;
+  border:1px solid rgba(255,150,0,.5);background:rgba(18,9,4,.78);box-shadow:0 0 20px rgba(255,90,0,.2)}
+.ff i{font-style:normal;font-size:2.6rem}
+.ff span{font-family:'Lalezar','Cairo',sans-serif;font-size:1.5rem;color:#ffd76a}
+.fb{transform:rotateY(180deg);background:linear-gradient(135deg,#3a0d06,#120804);font-size:1.05rem;line-height:1.7}
+.contact{display:flex;flex-wrap:wrap;gap:12px}
+.cbtn{flex:1 1 150px;text-align:center;text-decoration:none;color:#1a0b00;font-family:'Lalezar','Cairo',sans-serif;font-size:1.3rem;
+  padding:14px 18px;border-radius:50px;background:linear-gradient(135deg,#ffb300,#ff6a1a);box-shadow:0 0 22px rgba(255,106,26,.55);
+  animation:pulseb 2.6s ease-in-out infinite}
+@keyframes pulseb{50%{box-shadow:0 0 38px rgba(255,150,0,.95)}}
+@media(min-width:700px){.flips{grid-template-columns:repeat(4,1fr)}}
 .embers{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
 .ember{position:absolute;bottom:-20px;border-radius:50%;
   background:radial-gradient(circle,#ffd76a,rgba(255,106,26,0));animation:rise linear infinite}
@@ -59,7 +102,7 @@ body.locked{overflow:hidden}
 .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;align-items:center;
   text-align:center;padding:44px 16px 80px;gap:20px}
 .top{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
-.tagline{width:min(100%,640px);padding:22px 18px;border-radius:24px;background:rgba(8,4,2,.58);
+.tagline{cursor:pointer;width:min(100%,640px);padding:22px 18px;border-radius:24px;background:rgba(8,4,2,.58);
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,200,100,.55);
   box-shadow:0 0 30px rgba(255,100,0,.35),inset 0 0 30px rgba(0,0,0,.4);
   font-family:'Lalezar','Cairo',sans-serif;font-size:clamp(1.6rem,6.4vw,2.6rem);line-height:1.6;color:#fff4d6;
@@ -116,7 +159,7 @@ body.locked{overflow:hidden}
 .lb-count{position:absolute;bottom:18px;color:#e9c98c;font-size:.95rem}
 
 /* مشغل الأغنية */
-.player{display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-radius:50px;width:min(100%,360px);
+.player{margin:18px auto 0;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-radius:50px;width:min(100%,360px);
   background:rgba(18,9,4,.75);border:1px solid rgba(255,122,47,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   box-shadow:0 0 24px rgba(255,90,0,.4);opacity:0;transform:translateY(-10px);transition:opacity .8s .8s,transform .8s .8s}
 .player.show{opacity:1;transform:none}
@@ -134,32 +177,63 @@ body.locked{overflow:hidden}
 @keyframes eq{50%{height:100%}}
 
 footer{text-align:center;padding:40px 20px 100px;color:#ff8a3d;font-size:1.15rem;text-shadow:0 2px 10px #000}
+button.cbtn{border:0;cursor:pointer}
+.spark{position:fixed;z-index:3000;width:9px;height:9px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,#fff6d6,#ffb300 40%,rgba(255,80,0,0) 70%);animation:spark .8s ease-out forwards}
+@keyframes spark{to{transform:translate(var(--sx),var(--sy)) scale(.2);opacity:0}}
+.nw.pre{opacity:0}
+.nw.slam{animation:slam 1s cubic-bezier(.2,.9,.2,1) both}
+@keyframes slam{0%{opacity:0;transform:scale(3.2);filter:blur(18px)}60%{opacity:1;transform:scale(.94);filter:blur(0)}80%{transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}
+.hero.shake{animation:shake .5s}
+@keyframes shake{0%,100%{transform:none}20%{transform:translate(-8px,5px)}40%{transform:translate(7px,-6px)}60%{transform:translate(-5px,-3px)}80%{transform:translate(4px,4px)}}
+.roll{height:2.2em;margin-top:6px;font-family:'Lalezar','Cairo',sans-serif;font-size:1.7rem;color:#ffcf4a;
+  text-shadow:0 0 18px #ff8a00,0 2px 0 #000;transition:opacity .5s,transform .5s}
+.roll.out{opacity:0;transform:translateY(10px)}
+.bolt{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;mix-blend-mode:screen;
+  background:radial-gradient(ellipse at var(--bx,50%) 0%,rgba(200,220,255,.9),rgba(120,150,255,.25) 40%,transparent 70%)}
+.bolt.go{animation:bolt .7s}
+@keyframes bolt{0%{opacity:0}8%{opacity:1}16%{opacity:.1}26%{opacity:.9}100%{opacity:0}}
+.tl{position:relative;padding-right:34px}
+.tl::before{content:'';position:absolute;right:11px;top:6px;bottom:6px;width:3px;border-radius:3px;
+  background:linear-gradient(180deg,#ffd76a,#ff6a1a,#b3170f);box-shadow:0 0 14px #ff6a1a}
+.ti{position:relative;margin-bottom:18px;opacity:0;transform:translateX(30px);transition:opacity .7s,transform .7s}
+.ti.in{opacity:1;transform:none}
+.ti::before{content:'';position:absolute;right:-29px;top:20px;width:15px;height:15px;border-radius:50%;background:#ffd76a;
+  box-shadow:0 0 14px #ff9d00,0 0 0 4px rgba(255,106,26,.4)}
+.ti .card{font-size:1.15rem;padding:18px}
+.ti b{font-family:'Lalezar','Cairo',sans-serif;font-weight:400;font-size:1.6rem;color:#ffcf4a;display:block}
+.qrbox{position:fixed;inset:0;z-index:1600;display:none;align-items:center;justify-content:center;background:rgba(5,2,1,.92)}
+.qrbox.active{display:flex}
+.qrin{background:#fff;color:#1a0b00;padding:20px;border-radius:22px;text-align:center;box-shadow:0 0 60px rgba(255,90,0,.6)}
+.qrin p{margin-top:12px;font-weight:800}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body class="locked">
-<div class="bg"></div>
-<div class="fog"></div><div class="glow"></div>
+<div class="bgwrap"><div class="bgmove" id="bgmove"><div class="bg" id="bg"></div></div></div>
+<div class="fog"></div><div class="glow"></div><div class="bolt" id="bolt"></div>
 <div class="embers" id="embers"></div>
 
 <div class="gate" id="gate">
   <div class="portal"></div>
-  <p>بوابة عالم آخر</p>
-  <button class="enter" id="enterBtn">ادخل العالم 🔥</button>
+  <div class="pct" id="pct">0%</div>
+  <p id="gateMsg">جارٍ إشعال النار...</p>
+  <button class="enter" id="enterBtn" hidden>ادخل العالم 🔥</button>
 </div>
 
 <header class="hero">
   <div class="top">
     <div class="tagline">وجودك هنا يعني إنك رأيت<b>أعظم رجل في العالم</b></div>
+  </div>
+  <div>
+    <div class="welcome">مرحباً بيك في عالمي</div>
+    <div class="nw pre" id="nw"><h1 class="name">بيسو البلد</h1></div>
+    <div class="roll" id="roll"></div>
     <div class="player" id="player">
       <button class="pbtn" id="playBtn" aria-label="تشغيل / إيقاف">⏸</button>
       <div class="ptitle" id="songTitle"></div>
       <div class="eq"><i></i><i></i><i></i><i></i></div>
     </div>
-  </div>
-  <div>
-    <div class="welcome">مرحباً بيك في عالمي</div>
-    <h1 class="name">بيسو البلد</h1>
   </div>
   <div class="scroll">▼</div>
 </header>
@@ -167,7 +241,27 @@ footer{text-align:center;padding:40px 20px 100px;color:#ff8a3d;font-size:1.15rem
 <main>
   <section class="section reveal">
     <h2>عني</h2>
-    <div class="card">إما أن تكون أسطورة، أو لا تكون شيئاً على الإطلاق.</div>
+    <div class="card type" data-text="إما أن تكون أسطورة، أو لا تكون شيئاً على الإطلاق."></div>
+  </section>
+
+  <section class="section reveal">
+    <h2>أرقامي</h2>
+    <div class="stats">
+      <div class="stat"><b id="days">0</b><span>يوم وأنا أسطورة</span></div>
+      <div class="stat"><b id="visit">0</b><span>زيارتك لعالمي</span></div>
+      <div class="stat"><b id="aura">0</b><span>مستوى الهيبة %</span></div>
+      <div class="stat"><b id="photos">0</b><span>صورة في المعرض</span></div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2>ألقابي</h2>
+    <div class="flips" id="flips"></div>
+  </section>
+
+  <section class="section reveal">
+    <h2>رحلتي</h2>
+    <div class="tl" id="tl"></div>
   </section>
 
   <section class="section reveal">
@@ -185,11 +279,18 @@ footer{text-align:center;padding:40px 20px 100px;color:#ff8a3d;font-size:1.15rem
       <div class="g"><img src="photo10.jpg" alt="" loading="lazy"></div>
     </div>
   </section>
+
+  <section class="section reveal">
+    <h2>تواصل معي</h2>
+    <div class="contact" id="contact"></div>
+    <div class="contact" id="share" style="margin-top:14px"></div>
+  </section>
 </main>
 
 <footer>صُنع بنار • بيسو البلد 🔥</footer>
 
 <button class="mini" id="mini" aria-label="الأغنية">⏸</button>
+<div class="qrbox" id="qrbox"><div class="qrin"><div id="qrcode"></div><p>امسح الكود وادخل العالم 🔥</p></div></div>
 <audio id="audio" loop preload="auto"></audio>
 
 <div class="lightbox" id="lightbox">
@@ -204,8 +305,29 @@ footer{text-align:center;padding:40px 20px 100px;color:#ff8a3d;font-size:1.15rem
 /* ====== غيّر الأغنية من هنا ======
    1) ارفع ملف الأغنية في نفس مكان index.html
    2) اكتب اسم الملف هنا، واسم الأغنية اللي يظهر للزائر */
-const SONG_FILE  = 'song.mp3';
+const SONG_FILE  = 'song.m4a';
 const SONG_TITLE = '🎵 اسم الأغنية هنا';
+const VOICE_FILE = 'voice.mp3';   // تسجيل صوتك للوصف (ارفعه بنفس الاسم)
+const VOICE_PITCH = 0.85;           // 1 = صوتك العادي، أقل = أعمق وأتقل وأرعب (جرب 0.8 لـ 0.9)
+const VOICE_GRIT  = 3;              // خشونة الصوت (0 = نضيف، 3 = وحش، 6 = قوي جدًا)
+const START_DATE = '2026-01-01';   // تاريخ بداية الأسطورة (سنة-شهر-يوم)
+const CONTACT = [                  // أضف أو احذف أزرار التواصل
+  { label: 'واتساب 💬',   url: 'https://wa.me/201000000000' },
+  { label: 'إنستجرام 📸', url: 'https://instagram.com/bassa9' }
+];
+const SITE_URL = 'https://bassa9.github.io';
+const ROLES = ['أسطورة', 'زعيم', 'ابن التنين', 'ملك النار'];   // الكلمات اللي بتتبدل تحت الاسم
+const TIMELINE = [                 // محطات رحلتك (سنة + كلام)
+  { y: 'البداية', t: 'اتولد الزعيم، والبلد كلها حست بالفرق' },
+  { y: 'الصعود',  t: 'بدأت أبني اسمي، وكل خطوة كانت بنار' },
+  { y: 'اليوم',   t: 'بيسو البلد... اسم الكل بيعرفه' }
+];
+const TITLES = [                   // الألقاب: أيقونة / اسم / كلام يظهر عند الضغط
+  { i: '🔥', t: 'ناري',     d: 'كل حاجة بعملها بتطلع نار' },
+  { i: '👑', t: 'الزعيم',   d: 'في البلد كلها، الكلمة كلمتي' },
+  { i: '🐉', t: 'ابن التنين', d: 'الهيبة مش بتتعلم، بتتولد' },
+  { i: '⚡', t: 'السرعة',   d: 'قبل ما تفكر، أنا خلصت' }
+];
 /* ================================= */
 
 // جمرات
@@ -237,6 +359,7 @@ mini.addEventListener('click', toggle);
 addEventListener('scroll', () => mini.classList.toggle('show', scrollY > innerHeight * .6), { passive: true });
 document.getElementById('enterBtn').addEventListener('click', () => {
   document.getElementById('gate').classList.add('open');
+  roar(); slam(); setTimeout(playVoice, 1000); navigator.vibrate && navigator.vibrate([80,40,160]);
   document.body.classList.remove('locked');
   audio.play().then(() => setState(true)).catch(() => setState(false));
   player.classList.add('show');
@@ -256,6 +379,7 @@ function show(i) {
   lbImg.src = imgs[cur].src;
   lbCount.textContent = (cur + 1) + ' / ' + imgs.length;
   lb.classList.add('active');
+  navigator.vibrate && navigator.vibrate(20);
 }
 imgs.forEach((im, i) => im.parentElement.addEventListener('click', () => show(i)));
 const close = () => lb.classList.remove('active');
@@ -275,6 +399,222 @@ lb.addEventListener('touchend', e => {
   const d = e.changedTouches[0].clientX - sx;
   if (Math.abs(d) > 50) show(d < 0 ? cur + 1 : cur - 1);
 });
+
+// شاشة التحميل
+const pct = document.getElementById('pct'), enterBtn = document.getElementById('enterBtn'), gateMsg = document.getElementById('gateMsg');
+const MSGS = ['جارٍ إشعال النار...', 'جارٍ إيقاظ التنين...', 'جارٍ فتح العالم...'];
+let p = 0, imgReady = false;
+const bgImg = new Image();
+bgImg.onload = bgImg.onerror = () => { imgReady = true; placeEyes(); };
+bgImg.src = 'dragon.jpg';
+const tick = setInterval(() => {
+  p += Math.random() * 5 + 2;
+  if (p > 92 && !imgReady) p = 92;
+  gateMsg.textContent = MSGS[Math.min(2, Math.floor(p / 34))];
+  if (p >= 100) { p = 100; clearInterval(tick); pct.style.display = 'none'; gateMsg.textContent = 'العالم جاهز'; enterBtn.hidden = false; }
+  pct.textContent = Math.floor(p) + '%';
+}, 90);
+
+// عيون التنين (بتتحدد أوتوماتيك من الصورة)
+const bgEl = document.getElementById('bg');
+let eyes = [];
+function detectEyes() {
+  try {
+    const w = 160, h = Math.round(w * bgImg.naturalHeight / bgImg.naturalWidth);
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const x = c.getContext('2d'); x.drawImage(bgImg, 0, 0, w, h);
+    const d = x.getImageData(0, 0, w, h).data, L = [0,0,0], R = [0,0,0];
+    for (let j = 0; j < h * .55; j++) for (let i = 0; i < w; i++) {
+      const k = (j * w + i) * 4, r = d[k], g = d[k+1], b = d[k+2];
+      if (r > 110 && r - Math.max(g, b) > 70) { const t = i < w / 2 ? L : R; t[0] += i; t[1] += j; t[2]++; }
+    }
+    if (L[2] < 2 || R[2] < 2) return [];
+    return [L, R].map(t => ({ x: t[0] / t[2] / w, y: t[1] / t[2] / h }));
+  } catch (e) { return []; }
+}
+function placeEyes() {
+  if (!bgImg.naturalWidth) return;
+  if (!eyes.length) eyes = detectEyes().map(pt => { const e = document.createElement('i'); e.className = 'eye'; bgEl.appendChild(e); return { e, pt }; });
+  const W = bgEl.offsetWidth, H = bgEl.offsetHeight, s = Math.max(W / bgImg.naturalWidth, H / bgImg.naturalHeight);
+  const iw = bgImg.naturalWidth * s, ih = bgImg.naturalHeight * s, ox = (W - iw) / 2, oy = (H - ih) * .3, z = W * .1;
+  eyes.forEach(({ e, pt }) => {
+    e.style.left = (ox + pt.x * iw - z / 2) + 'px'; e.style.top = (oy + pt.y * ih - z / 2) + 'px';
+    e.style.width = e.style.height = z + 'px';
+  });
+}
+addEventListener('resize', placeEyes);
+
+// حركة التنين مع اللمس وميل الموبايل
+const mv = document.getElementById('bgmove');
+const look = (x, y) => { mv.style.transform = `translate(${x * -26}px,${y * -26}px)`; };
+addEventListener('pointermove', e => look(e.clientX / innerWidth - .5, e.clientY / innerHeight - .5));
+addEventListener('deviceorientation', e => {
+  if (e.gamma == null) return;
+  look(Math.max(-1, Math.min(1, e.gamma / 30)) / 2, Math.max(-1, Math.min(1, (e.beta - 45) / 30)) / 2);
+});
+
+// كتابة تلقائية
+const tw = document.querySelector('.type');
+new IntersectionObserver((es, o) => {
+  if (!es[0].isIntersecting) return;
+  o.disconnect();
+  const t = tw.dataset.text; let i = 0;
+  const id = setInterval(() => { tw.textContent = t.slice(0, ++i); if (i >= t.length) { clearInterval(id); tw.classList.add('done'); } }, 70);
+}, { threshold: .6 }).observe(tw);
+
+// العدادات
+function count(el, to) {
+  let n = 0; const st = Math.max(1, Math.ceil(to / 60));
+  const id = setInterval(() => { n = Math.min(to, n + st); el.textContent = n.toLocaleString('ar-EG'); if (n >= to) clearInterval(id); }, 25);
+}
+const days = Math.max(1, Math.floor((Date.now() - new Date(START_DATE)) / 864e5));
+let visits = 1;
+try { visits = (+localStorage.getItem('visits') || 0) + 1; localStorage.setItem('visits', visits); } catch (e) {}
+new IntersectionObserver((es, o) => {
+  if (!es[0].isIntersecting) return;
+  o.disconnect(); count(document.getElementById('days'), days); count(document.getElementById('visit'), visits);
+  count(document.getElementById('aura'), 100); count(document.getElementById('photos'), document.querySelectorAll('.g').length);
+}, { threshold: .5 }).observe(document.querySelector('.stats'));
+
+// الألقاب + التواصل
+const flips = document.getElementById('flips');
+TITLES.forEach(t => {
+  const d = document.createElement('div'); d.className = 'flip';
+  d.innerHTML = `<div class="fi"><div class="ff"><i>${t.i}</i><span>${t.t}</span></div><div class="fb">${t.d}</div></div>`;
+  d.onclick = () => { d.classList.toggle('on'); navigator.vibrate && navigator.vibrate(15); };
+  flips.appendChild(d);
+});
+const contact = document.getElementById('contact');
+CONTACT.forEach(c => {
+  const a = document.createElement('a'); a.className = 'cbtn'; a.href = c.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = c.label;
+  contact.appendChild(a);
+});
+
+// ضربة الاسم + هزة
+function slam() {
+  setTimeout(() => {
+    const nw = document.getElementById('nw'), hero = document.querySelector('.hero');
+    nw.classList.remove('pre'); nw.classList.add('slam'); hero.classList.add('shake');
+    navigator.vibrate && navigator.vibrate(120);
+  }, 900);
+}
+
+// كلمات بتتبدل
+const roll = document.getElementById('roll'); let ri = 0;
+roll.textContent = ROLES[0];
+setInterval(() => {
+  roll.classList.add('out');
+  setTimeout(() => { ri = (ri + 1) % ROLES.length; roll.textContent = ROLES[ri]; roll.classList.remove('out'); }, 500);
+}, 2800);
+
+// برق
+const bolt = document.getElementById('bolt');
+(function storm() {
+  setTimeout(() => {
+    bolt.style.setProperty('--bx', (10 + Math.random() * 80) + '%');
+    bolt.classList.remove('go'); void bolt.offsetWidth; bolt.classList.add('go');
+    storm();
+  }, 5000 + Math.random() * 8000);
+})();
+
+// شرر النار مع اللمس
+let lt = 0;
+function spark(x, y) {
+  const n = Date.now(); if (n - lt < 28) return; lt = n;
+  const s = document.createElement('i'), a = Math.random() * 6.28, d = 20 + Math.random() * 30;
+  s.className = 'spark';
+  s.style.cssText = `left:${x - 4}px;top:${y - 4}px;--sx:${Math.cos(a) * d}px;--sy:${Math.sin(a) * d - 30}px`;
+  document.body.appendChild(s); setTimeout(() => s.remove(), 800);
+}
+addEventListener('pointermove', e => spark(e.clientX, e.clientY));
+addEventListener('touchmove', e => { const t = e.touches[0]; spark(t.clientX, t.clientY); }, { passive: true });
+
+// رحلتي
+const tio = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) x.target.classList.add('in'); }), { threshold: .3 });
+const tl = document.getElementById('tl');
+TIMELINE.forEach(x => {
+  const d = document.createElement('div'); d.className = 'ti';
+  d.innerHTML = `<div class="card"><b>${x.y}</b>${x.t}</div>`;
+  tl.appendChild(d); tio.observe(d);
+});
+
+// مشاركة + QR + تثبيت
+const shareEl = document.getElementById('share'), qrbox = document.getElementById('qrbox');
+function sbtn(label, fn) {
+  const b = document.createElement('button'); b.className = 'cbtn'; b.textContent = label; b.onclick = fn;
+  shareEl.appendChild(b); return b;
+}
+sbtn('مشاركة واتساب 🟢', () => open('https://wa.me/?text=' + encodeURIComponent('ادخل عالم بيسو البلد 🔥🐉 ' + SITE_URL), '_blank'));
+if (navigator.share) sbtn('مشاركة 📤', () => navigator.share({ title: 'بيسو البلد', text: 'ادخل عالمي 🔥', url: SITE_URL }).catch(() => {}));
+let qrDone = false;
+sbtn('كود QR 🔳', () => {
+  qrbox.classList.add('active');
+  if (!qrDone && window.QRCode) { new QRCode(document.getElementById('qrcode'), { text: SITE_URL, width: 220, height: 220 }); qrDone = true; }
+});
+qrbox.addEventListener('click', e => { if (e.target === qrbox) qrbox.classList.remove('active'); });
+let dp;
+addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); dp = e;
+  const b = sbtn('ثبّت الموقع 📲', () => { dp.prompt(); b.remove(); });
+});
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+
+// صوتك على الوصف بتأثيرات فخمة (باص + صدى + قاعة)
+const voiceData = fetch(VOICE_FILE).then(r => { if (!r.ok) throw 0; return r.arrayBuffer(); }).catch(() => null);
+async function playVoice() {
+  try {
+    const data = await voiceData; if (!data) return;
+    const A = new (window.AudioContext || window.webkitAudioContext)();
+    if (A.state === 'suspended') await A.resume();
+    const buf = await A.decodeAudioData(data.slice(0));
+    const src = A.createBufferSource(); src.buffer = buf; src.playbackRate.value = VOICE_PITCH;
+    const sh = A.createWaveShaper(), cv = new Float32Array(256);
+    for (let i = 0; i < 256; i++) { const x = i / 128 - 1; cv[i] = (1 + VOICE_GRIT) * x / (1 + VOICE_GRIT * Math.abs(x)); }
+    sh.curve = cv;
+    const low = A.createBiquadFilter(); low.type = 'lowshelf'; low.frequency.value = 220; low.gain.value = 8;
+    const high = A.createBiquadFilter(); high.type = 'highshelf'; high.frequency.value = 3500; high.gain.value = 3;
+    const comp = A.createDynamicsCompressor();
+    const master = A.createGain(); master.gain.value = 1.25;
+    src.connect(sh); sh.connect(low); low.connect(high); high.connect(comp); comp.connect(master);
+    // قاعة (reverb)
+    const len = A.sampleRate * 2.6, ir = A.createBuffer(2, len, A.sampleRate);
+    for (let c = 0; c < 2; c++) { const d = ir.getChannelData(c); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6); }
+    const conv = A.createConvolver(); conv.buffer = ir;
+    const wet = A.createGain(); wet.gain.value = .45;
+    comp.connect(conv); conv.connect(wet); wet.connect(master);
+    // صدى خفيف
+    const dl = A.createDelay(); dl.delayTime.value = .2;
+    const fb = A.createGain(); fb.gain.value = .28; const ew = A.createGain(); ew.gain.value = .22;
+    comp.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(ew); ew.connect(master);
+    master.connect(A.destination);
+    // خفض الأغنية أثناء الكلام
+    audio.volume = .22;
+    src.start();
+    setTimeout(() => {
+      const iv = setInterval(() => { audio.volume = Math.min(1, audio.volume + .06); if (audio.volume >= 1) clearInterval(iv); }, 120);
+      setTimeout(() => A.close(), 3000);
+    }, (buf.duration / VOICE_PITCH + 1.2) * 1000);
+  } catch (e) { audio.volume = 1; }
+}
+document.querySelector('.tagline').addEventListener('click', playVoice);
+
+// صوت زئير ونار (مصنوع بالكود، مش محتاج ملف)
+function roar() {
+  try {
+    const A = new (window.AudioContext || window.webkitAudioContext)(), t = A.currentTime;
+    const g = A.createGain(); g.gain.setValueAtTime(.0001, t);
+    g.gain.exponentialRampToValueAtTime(.5, t + .25); g.gain.exponentialRampToValueAtTime(.0001, t + 1.8);
+    const f = A.createBiquadFilter(); f.type = 'lowpass';
+    f.frequency.setValueAtTime(900, t); f.frequency.exponentialRampToValueAtTime(120, t + 1.8);
+    g.connect(f); f.connect(A.destination);
+    const o = A.createOscillator(); o.type = 'sawtooth';
+    o.frequency.setValueAtTime(95, t); o.frequency.exponentialRampToValueAtTime(38, t + 1.8);
+    o.connect(g); o.start(t); o.stop(t + 1.9);
+    const nb = A.createBuffer(1, A.sampleRate * 1.8, A.sampleRate), dd = nb.getChannelData(0);
+    for (let i = 0; i < dd.length; i++) dd[i] = (Math.random() * 2 - 1) * (1 - i / dd.length);
+    const sr = A.createBufferSource(); sr.buffer = nb; sr.connect(g); sr.start(t);
+  } catch (e) {}
+}
 </script>
 </body>
 </html>
